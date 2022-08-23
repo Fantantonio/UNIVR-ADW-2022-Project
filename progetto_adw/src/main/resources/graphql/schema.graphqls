@@ -1,0 +1,34 @@
+scalar Date
+
+type Query {
+	tutteDomande: [Domanda]
+	tutteRisposte: [Risposta]
+	tuttiTest: [Test]
+}
+
+
+
+
+type Risposta {
+	id: ID!
+	testo: String!
+	punteggio: Float
+	domanda: Domanda
+}
+
+
+type Domanda {
+	nome: String!
+	testo: String!
+	punti: Int
+	ordinecasuale: Boolean
+	risposteconnumero: Boolean
+}
+
+
+type Test {
+	data: String!
+	nome: String!
+	ordinecasuale: Boolean
+	domandeconnumero: Boolean
+}
