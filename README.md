@@ -6,6 +6,6 @@ Repository utilizzato per il corso di Applicazioni Dinamiche per il Web UNIVR
 ![](https://img.shields.io/badge/%20-GraphQL-da0093?style=flat-square)
 ![](https://img.shields.io/badge/%20-Maven-6a6a6a?style=flat-square)
 ![](https://img.shields.io/badge/%20-Node.js-6da45f?style=flat-square)
-![](https://img.shields.io/badge/%20-React-#5ed3f3?style=flat-square)
+![](https://img.shields.io/badge/%20-React-5ed3f3?style=flat-square)
 
 ===
