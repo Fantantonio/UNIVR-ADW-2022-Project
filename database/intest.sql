@@ -1,0 +1,12 @@
+INSERT INTO intest (datatest, nometest, domanda) VALUES ('2020-07-07 09:00:00', 'Basi di Dati - II appello laboratorio', 'Domanda 1');
+INSERT INTO intest (datatest, nometest, domanda) VALUES ('2020-07-07 09:00:00', 'Basi di Dati - II appello laboratorio', 'Domanda 2');
+INSERT INTO intest (datatest, nometest, domanda) VALUES ('2020-07-07 09:00:00', 'Basi di Dati - II appello laboratorio', 'Domanda 3');
+INSERT INTO intest (datatest, nometest, domanda) VALUES ('2020-07-07 09:00:00', 'Basi di Dati - II appello laboratorio', 'Domanda 4');
+INSERT INTO intest (datatest, nometest, domanda) VALUES ('2020-07-07 09:00:00', 'Basi di Dati - II appello laboratorio', 'Domanda 5');
+INSERT INTO intest (datatest, nometest, domanda) VALUES ('2020-07-07 09:00:00', 'Basi di Dati - II appello laboratorio', 'Domanda 6');
+INSERT INTO intest (datatest, nometest, domanda) VALUES ('2020-07-07 09:00:00', 'Basi di Dati - II appello laboratorio', 'Domanda 7');
+INSERT INTO intest (datatest, nometest, domanda) VALUES ('2020-07-07 09:00:00', 'Basi di Dati - II appello laboratorio', 'Domanda 8');
+INSERT INTO intest (datatest, nometest, domanda) VALUES ('2020-07-07 09:00:00', 'Basi di Dati - II appello laboratorio', 'Domanda 9');
+INSERT INTO intest (datatest, nometest, domanda) VALUES ('2020-07-07 09:00:00', 'Basi di Dati - II appello laboratorio', 'Domanda 10');
+INSERT INTO intest (datatest, nometest, domanda) VALUES ('2020-07-07 09:00:00', 'Basi di Dati - II appello laboratorio', 'Domanda 11');
+INSERT INTO intest (datatest, nometest, domanda) VALUES ('2020-07-07 09:00:00', 'Basi di Dati - II appello laboratorio', 'Domanda 12');
