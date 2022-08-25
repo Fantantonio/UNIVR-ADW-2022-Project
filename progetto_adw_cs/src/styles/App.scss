@@ -1,0 +1,40 @@
+/* COLORS */
+$white: #ffffff;
+$bordo: #E8E8E8;
+$black: #000000;
+
+$primary: #2573A7;
+$secondary: #5E6A75;
+$success: #337040;
+$info: #16826D;
+$warning: #E08A00;
+$orange: #D35400;
+$danger: #B7382A;
+$light: #F5F5F5;
+$dark: #2C3E50;
+$purple: #6C3384;
+$wet_asphalt: #34495e;
+
+$theme-colors: (
+    "primary": $primary,
+    "secondary": $secondary,
+    "success": $success,
+    "info": $info,
+    "warning": $warning,
+    "danger": $danger,
+    "light": $light,
+    "dark": $dark,
+    "purple": $purple,
+    "orange": $orange
+);
+
+$border-radius: 0px;
+$border-radius-lg: 0px;
+$border-radius-sm: 0px;
+
+$card-cap-bg: $dark;
+$card-cap-color: $white;
+$input-border-color: $dark;
+
+
+@import "../../node_modules/bootstrap/scss/bootstrap";

@@ -65,3 +65,5 @@ progetto_adw/mvnw.cmd
 /progetto_adw.zip
 node_modules
 HELP.md
+progetto_adw_cs/src/styles/App.css
+progetto_adw_cs/src/styles/App.css.map
