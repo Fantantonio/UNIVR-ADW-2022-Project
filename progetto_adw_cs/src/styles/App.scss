@@ -15,6 +15,16 @@ $dark: #2C3E50;
 $purple: #6C3384;
 $wet_asphalt: #34495e;
 
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #32485e !default;
+$gray-800: #243342 !default;
+$gray-900: #1e2b38 !default;
+
 $theme-colors: (
     "primary": $primary,
     "secondary": $secondary,
@@ -28,17 +38,30 @@ $theme-colors: (
     "orange": $orange
 );
 
+$form-check-input-border: 1px solid $dark;
+
 $border-radius: 0px;
 $border-radius-lg: 0px;
 $border-radius-sm: 0px;
+$form-check-input-border-radius: 0px;
 
 $card-cap-bg: $dark;
 $card-cap-color: $white;
 $input-border-color: $dark;
+$form-check-input-checked-bg-color: $success;
+
 
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
+
+.w15em {
+    width: 1.5em;
+}
+
+.h15em {
+    height: 1.5em;
+}
 
 
 

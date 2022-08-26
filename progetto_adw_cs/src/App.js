@@ -1,31 +1,35 @@
 import { Component } from "react";
 import "../node_modules/bootstrap/dist/js/bootstrap";
-import Navbar from './components/Navbar';
-import TestTable from './components/TestTable';
+import BarraNavigazione from './components/BarraNavigazione';
+import PaginaIniziale from './components/PaginaIniziale';
+import PaginaTest from './components/PaginaTest';
+import PaginaFineTest from './components/PaginaFineTest';
+import PaginaCreaDomanda from './components/PaginaCreaDomanda';
+import PaginaCreaTest from './components/PaginaCreaTest';
 import './styles/App.css';
 
 class App extends Component {
+  state = {
+    test: [
+
+    ]
+  }
+
+
   render() {
-  return (
-    <div className="App">
-      <Navbar />
-      <hr className="m-0"></hr>
-      
-      <div className="container mt-4">
+    return (
+      <div className="App">
+        <BarraNavigazione />
+        <hr className="m-0"></hr>
+        
+        <div className="container mt-4">
 
-        <div className="text-center my-4">
-          <button className="btn btn-lg btn-primary me-1 mb-1">
-            Nuovo Test
-          </button>
-          <button className="btn btn-lg btn-primary ms-1 mb-1">
-            Nuova Domanda
-          </button>
+          <PaginaCreaTest />
+
         </div>
-
-        <TestTable />
       </div>
-    </div>
-  );}
+    );
+  }
 }
 
 export default App;

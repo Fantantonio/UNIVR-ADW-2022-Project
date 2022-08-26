@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class TestTable extends Component {
+class TabellaTest extends Component {
     render() {
         return (
             <div className="card">
@@ -58,4 +58,4 @@ class TestTable extends Component {
     }
 }
 
-export default TestTable
+export default TabellaTest
