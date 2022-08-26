@@ -1,35 +1,34 @@
-import { Component } from "react";
 import "../node_modules/bootstrap/dist/js/bootstrap";
-import BarraNavigazione from './components/BarraNavigazione';
-import PaginaIniziale from './components/PaginaIniziale';
-import PaginaTest from './components/PaginaTest';
-import PaginaFineTest from './components/PaginaFineTest';
-import PaginaCreaDomanda from './components/PaginaCreaDomanda';
-import PaginaCreaTest from './components/PaginaCreaTest';
+import Navbar from './components/Navbar';
+import TestTable from './components/TestTable';
 import './styles/App.css';
-
-class App extends Component {
-  state = {
-    test: [
-
-    ]
-  }
+import { useQuery } from '@apollo/client';
+import { GET_GEN_3, GET_RISPOSTE } from "./gql/Query";
 
 
-  render() {
-    return (
-      <div className="App">
-        <BarraNavigazione />
-        <hr className="m-0"></hr>
-        
-        <div className="container mt-4">
+function App() {
+  const { loading, error, data } = useQuery(GET_RISPOSTE);
+  console.log(data);
+  return (
+    <div className="App">
+      <Navbar />
+      <hr class="m-0"></hr>
+      
+      <div class="container mt-4">
 
-          <PaginaCreaTest />
-
+        <div class="text-center my-4">
+          <button class="btn btn-lg btn-primary me-1 mb-1">
+            Nuovo Test
+          </button>
+          <button class="btn btn-lg btn-primary ms-1 mb-1">
+            Nuova Domanda
+          </button>
         </div>
+
+        <TestTable />
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default App;
