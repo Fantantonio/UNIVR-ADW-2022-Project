@@ -38,3 +38,28 @@ $input-border-color: $dark;
 
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
+
+
+
+
+/* CUSTOM SCROLLBAR */
+::-webkit-scrollbar {
+    width: 15px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: $light;
+    border-radius: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: $wet_asphalt;
+    border-radius: 15px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: $dark;
+}
