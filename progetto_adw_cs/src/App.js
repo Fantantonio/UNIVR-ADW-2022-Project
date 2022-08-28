@@ -6,6 +6,10 @@ import PaginaTest from './components/PaginaTest';
 import PaginaFineTest from './components/PaginaFineTest';
 import PaginaCreaDomanda from './components/PaginaCreaDomanda';
 import PaginaCreaTest from './components/PaginaCreaTest';
+import PaginaLogin from './components/PaginaLogin';
+import TabellaTest from "./components/TabellaTest";
+import FillTable from "./components/TabellaTest";
+
 import './styles/App.css';
 
 class App extends Component {
@@ -15,6 +19,7 @@ class App extends Component {
     ]
   }
 
+const
 
   render() {
     return (
@@ -23,13 +28,17 @@ class App extends Component {
         <hr className="m-0"></hr>
         
         <div className="container mt-4">
+          
+        <PaginaTest />
 
-          <PaginaCreaTest />
+          
 
         </div>
       </div>
     );
   }
 }
+
+
 
 export default App;
