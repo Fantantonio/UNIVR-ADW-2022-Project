@@ -38,7 +38,7 @@ class PaginaCreaTest extends Component {
                     </div>
                     <div className="mt-4">
                         <button type="submit" id="crea-test-conferma" className="btn btn-success me-1">Conferma</button>
-                        <a className="btn btn-danger">Annulla</a>
+                        <button type="button" className="btn btn-danger">Annulla</button>
                     </div>
                 </form>
             </div>

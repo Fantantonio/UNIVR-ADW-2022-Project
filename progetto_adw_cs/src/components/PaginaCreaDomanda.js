@@ -45,7 +45,7 @@ class PaginaCreaDomanda extends Component {
                     </div>
                     <div id="crea-domanda-risposte-numerate-help" className="form-text mb-3">Attiva il checkbox se la risposta 1 è corretta.</div>
 
-                    <a className="btn btn-primary">Aggiungi risposta</a>
+                    <button type="button" className="btn btn-primary">Aggiungi risposta</button>
 
                     <hr></hr>
 
@@ -53,7 +53,7 @@ class PaginaCreaDomanda extends Component {
                         Seleziona "Conferma e Continua" per confermare l'attuale domanda e continuare con una nuova domanda; seleziona "Termina" per uscire dalla compilazione senza salvare la domanda attuale. 
                     </div>
                     <button type="submit" id="crea-domanda-conferma" className="btn btn-success me-1">Conferma e Continua</button>
-                    <a className="btn btn-danger">Termina</a>
+                    <button type="button" className="btn btn-danger">Termina</button>
                 </form>
             </div>
         </div>
