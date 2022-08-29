@@ -1,13 +1,19 @@
 package dev.fantantonio.progetto_adw.model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
+@Table(name="domanda")
 public class Domanda {
 	
 	// CHECK: https://stackoverflow.com/questions/11631800/hibernate-how-specify-custom-sequence-generator-class-name-using-annotations
@@ -28,6 +34,10 @@ public class Domanda {
 	
 	@Column(columnDefinition = "boolean default false")
 	private Boolean risposteconnumero;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "domanda", orphanRemoval = true)
+    private Set<InTest> intest;
+	
 	
 	public Domanda() {}
 

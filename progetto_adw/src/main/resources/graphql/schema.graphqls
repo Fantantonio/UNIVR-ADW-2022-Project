@@ -4,9 +4,15 @@ type Query {
 	tutteDomande: [Domanda]
 	tutteRisposte: [Risposta]
 	tuttiTest: [Test]
+	tuttiInTest: [InTest]
 }
 
 
+type InTest {
+	domanda: Domanda!
+	datatest: String!
+	nometest: String!
+}
 
 
 type Risposta {

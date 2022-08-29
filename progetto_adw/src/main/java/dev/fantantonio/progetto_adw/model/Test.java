@@ -6,18 +6,20 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.Table;
 
 import dev.fantantonio.progetto_adw.model.generator.TestID;
 
 @Entity
+@Table(name="test")
 @IdClass(TestID.class)
 public class Test {
 	@Id
-	@Column(nullable = false)
+	@Column(name="data", nullable = false)
 	private Date data;
 	
 	@Id
-	@Column(nullable = false)
+	@Column(name="nome", nullable = false)
 	private String nome;
 	
 	@Column(columnDefinition = "boolean default false")
@@ -25,6 +27,7 @@ public class Test {
 	
 	@Column(columnDefinition = "boolean default false")
 	private Boolean ordinecasuale;
+
 	
 	
 	public Test() {}
