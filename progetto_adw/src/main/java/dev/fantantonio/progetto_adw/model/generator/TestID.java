@@ -10,12 +10,12 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class TestID implements Serializable {
 	private static final long serialVersionUID = 3686370648586159204L;
-	private Date data;
+	private String data;
 	private String nome;
 	
 	public TestID() {}
 	
-	public TestID(Date data, String nome) {
+	public TestID(String data, String nome) {
 		super();
 		this.data = data;
 		this.nome = nome;
@@ -44,11 +44,11 @@ public class TestID implements Serializable {
 		return Objects.hash(data, nome);
 	}
 	
-	public Date getData() {
+	public String getData() {
 		return data;
 	}
 
-	public void setData(Date data) {
+	public void setData(String data) {
 		this.data = data;
 	}
 

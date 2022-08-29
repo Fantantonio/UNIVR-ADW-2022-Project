@@ -6,6 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -16,10 +17,22 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name="domanda")
 public class Domanda {
 	
+	/*
 	// CHECK: https://stackoverflow.com/questions/11631800/hibernate-how-specify-custom-sequence-generator-class-name-using-annotations
 	@Id
 	@GenericGenerator(name = "new_id", strategy = "dev.fantantonio.progetto_adw.model.generator.DomandaIdGenerator")
 	@GeneratedValue(generator = "new_id")
+	@Column(name = "nome")
+	*/
+	
+	/* Funzionante ma PK randomico
+	//https://stackoverflow.com/questions/57818993/how-to-fix-org-hibernate-id-identifiergenerationexception-unknown-integral-dat
+	@Id
+	@GeneratedValue(generator="system-uuid")
+	@GenericGenerator(name="system-uuid", strategy = "uuid")
+	@Column(name = "nome")
+	*/
+	
 	@Column(name = "nome")
 	private String nome;
 	

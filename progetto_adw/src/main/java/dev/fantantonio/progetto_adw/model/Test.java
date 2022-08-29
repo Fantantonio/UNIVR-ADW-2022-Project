@@ -16,7 +16,7 @@ import dev.fantantonio.progetto_adw.model.generator.TestID;
 public class Test {
 	@Id
 	@Column(name="data", nullable = false)
-	private Date data;
+	private String data;
 	
 	@Id
 	@Column(name="nome", nullable = false)
@@ -32,7 +32,7 @@ public class Test {
 	
 	public Test() {}
 	
-	public Test(Date data, String nome, Boolean domandeconnumero, Boolean ordinecasuale) {
+	public Test(String data, String nome, Boolean domandeconnumero, Boolean ordinecasuale) {
 		super();
 		this.data = data;
 		this.nome = nome;
@@ -40,11 +40,11 @@ public class Test {
 		this.ordinecasuale = ordinecasuale;
 	}
 	
-	public Date getData() {
+	public String getData() {
 		return data;
 	}
 	
-	public void setData(Date data) {
+	public void setData(String data) {
 		this.data = data;
 	}
 	
