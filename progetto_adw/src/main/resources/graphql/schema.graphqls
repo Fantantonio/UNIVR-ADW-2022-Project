@@ -6,14 +6,41 @@ type Query {
 	tuttiTest: [Test]
 }
 
+type Mutation {
+	addRisposta(risposta: RispostaInput): Risposta
+	addTest(test: TestInput): Test
+	addDomanda(domanda: DomandaInput) : Domanda
+}
 
+
+input RispostaInput{
+	id: ID!
+	testo: String!
+	punteggio: Float
+	domandaId: String!
+}
+
+input DomandaInput{
+	nome: String!
+	testo: String!
+	punti: Int
+	ordinecasuale: Boolean
+	risposteconnumero: Boolean
+}
+
+input TestInput{
+	data: String!
+	nome: String!
+	ordinecasuale: Boolean
+	domandeconnumero: Boolean
+}
 
 
 type Risposta {
 	id: ID!
 	testo: String!
 	punteggio: Float
-	domanda: Domanda
+	domanda: String
 }
 
 
