@@ -15,8 +15,24 @@ import dev.fantantonio.progetto_adw.model.Domanda;
 import dev.fantantonio.progetto_adw.model.Risposta;
 import dev.fantantonio.progetto_adw.repository.RispostaRepository;
 
+
 @Controller
 @RequestMapping("/risposta")
+public class RispostaController {
+
+	private final RispostaRepository rispostaRepository;
+	
+	public RispostaController(RispostaRepository rispostaRepository) {
+		this.rispostaRepository = rispostaRepository;
+	}
+	
+	@SchemaMapping(typeName = "Query", value = "tutteRisposte")
+	public List<Risposta> findAll() {
+		return rispostaRepository.findAll();
+	}
+}
+
+/*
 public class RispostaController {
 
 	private final RispostaRepository rispostaRepository;
@@ -65,4 +81,4 @@ public class RispostaController {
 	record RispostaInput(int id, Float punteggio,String testo) {}
 	
  }
-
+*/
