@@ -30,11 +30,9 @@ class PaginaCreaTest extends Component {
                         <div id="crea-test-domande-numerate-help" className="form-text">Attiva il checkbox per mostrare il numero delle domande durante il test.</div>
                     </div>
                     <p className="card-text">Seleziona le domande dalla lista qui sotto</p>
-                    <div className="input-group">
-                        <div className="input-group-text">
-                        <input id="crea-risposta-punteggio-1" className="form-check-input mt-0 w15em h15em" type="checkbox" value="" aria-label="Attiva questo checkbox se la risposta 1 è corretta." aria-describedby="crea-risposte-punteggio-1-help"/>
-                        </div>
-                        <input type="text" id="crea-risposta-testo-1" className="form-control" aria-label="Inserisci qui il testo della risposta 1." placeholder="Inserisci qui il testo della risposta 1" />
+                    <div className="mb-3 form-check">
+                        <input type="checkbox" className="form-check-input" id="crea-test-domanda-1" />
+                        <label className="form-check-label" htmlFor="crea-test-domanda-1">Domanda 1</label>
                     </div>
                     <div className="mt-4">
                         <button type="submit" id="crea-test-conferma" className="btn btn-success me-1">Conferma</button>
