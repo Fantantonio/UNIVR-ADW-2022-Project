@@ -18,9 +18,6 @@ const App = () => {
 
   const [user_role, setUserRole] = useState(true);
   const [page, setPage] = useState("PaginaIniziale");
-  const setStatePage = (page_name) => {
-    setPage(page_name);
-  }
 
   return (
     <>
@@ -31,7 +28,7 @@ const App = () => {
         <div className="container mt-4">
           {page === "PaginaIniziale" &&
             <PaginaIniziale 
-              setStatePage={setStatePage}
+              setPage={setPage}
             />
           }
           {page === "PaginaTest" &&

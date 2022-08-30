@@ -6,7 +6,7 @@ import { useQuery } from '@apollo/client';
 import { GET_ALL_TEST } from "../gql/Query";
 
 
-const PaginaIniziale = ({setStatePage}) => {
+const PaginaIniziale = ({setPage}) => {
 
     const { data, loading, error } = useQuery(GET_ALL_TEST);
 
@@ -41,7 +41,7 @@ const PaginaIniziale = ({setStatePage}) => {
                             {
                                 data.tuttiTest.map((test, index) => (
                                     <TabellaTest 
-                                        setStatePage={setStatePage}
+                                        setPage={setPage}
                                         key={index}
                                         data={test.data}
                                         nome={test.nome}

@@ -1,6 +1,6 @@
 import React from "react";
 
-const TabellaTest = ({setStatePage, data, nome, ordine_casuale, domande_numerate}) => {
+const TabellaTest = ({setPage, data, nome, ordine_casuale, domande_numerate}) => {
     return (
         <>
         <tr>
@@ -9,7 +9,7 @@ const TabellaTest = ({setStatePage, data, nome, ordine_casuale, domande_numerate
             <td className="text-center">{ordine_casuale.toString()}</td>
             <td className="text-center">{domande_numerate.toString()}</td>
             <td className="text-end">
-                <button type="button" className="btn btn-sm btn-primary" onClick={() => setStatePage("PaginaTest")}>Inizia</button>
+                <button type="button" className="btn btn-sm btn-primary" onClick={() => setPage("PaginaTest")}>Inizia</button>
             </td>
         </tr>
         </>
