@@ -1,10 +1,31 @@
-import React, { Component } from 'react'
+import { useState } from 'react'
 
-class PaginaCreaDomanda extends Component {
+const PaginaCreaDomanda = () => {
 
-  render() {
+    const [numeroRisposte, setNumeroRisposte] = useState(2);
+
+    const NuovaRisposta = () => {
+        let content = [];
+        for (let i = 0; i < numeroRisposte; i += 1) {
+            let id = i + 1;
+            content.push(
+                <>
+                <div className="input-group">
+                    <div className="input-group-text">
+                    <input id={`crea-risposta-punteggio-${id}`} className="form-check-input mt-0 w15em h15em" type="checkbox" value="" aria-label={`Attiva questo checkbox se la risposta ${id} è corretta.`} aria-describedby={`crea-risposta-punteggio-${id}-help`}/>
+                    </div>
+                    <input type="text" id={`crea-risposta-testo-${id}`} className="form-control" aria-label={`Inserisci qui il testo della risposta ${id}.`} placeholder={`Inserisci qui il testo della risposta ${id}`} />
+                </div>
+                <div id={`crea-risposta-punteggio-${id}-help`} className="form-text mb-3">Attiva il checkbox se la risposta {id} è corretta.</div>
+                </>
+            );
+        }
+        return content;
+    }
+
     return (
         <>
+        {console.log("rendered")}
         <div className="card my-4">
             <div className="card-body">
 
@@ -37,15 +58,10 @@ class PaginaCreaDomanda extends Component {
                     <div className="alert alert-warning" role="alert">
                     Devi inserire almeno due risposte. Per inserire più risposte utilizza il bottone "Aggiungi risposta".
                     </div>
-                    <div className="input-group">
-                        <div className="input-group-text">
-                        <input id="crea-risposta-punteggio-1" className="form-check-input mt-0 w15em h15em" type="checkbox" value="" aria-label="Attiva questo checkbox se la risposta 1 è corretta." aria-describedby="crea-risposte-punteggio-1-help"/>
-                        </div>
-                        <input type="text" id="crea-risposta-testo-1" className="form-control" aria-label="Inserisci qui il testo della risposta 1." placeholder="Inserisci qui il testo della risposta 1" />
+                    <div id="crea-domanda-aggiungi-risposta-wrapper">
+                        { NuovaRisposta() }
                     </div>
-                    <div id="crea-domanda-risposte-numerate-help" className="form-text mb-3">Attiva il checkbox se la risposta 1 è corretta.</div>
-
-                    <button type="button" className="btn btn-primary">Aggiungi risposta</button>
+                    <button type="button" className="btn btn-primary" onClick={() => setNumeroRisposte(numeroRisposte + 1)}>Aggiungi risposta</button>
 
                     <hr></hr>
 
@@ -59,7 +75,6 @@ class PaginaCreaDomanda extends Component {
         </div>
         </>
     )
-  }
 }
 
 export default PaginaCreaDomanda
