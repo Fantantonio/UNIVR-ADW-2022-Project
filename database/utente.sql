@@ -1,0 +1,2 @@
+INSERT INTO utente (id, nomeutente, email, password, ruolo) VALUES (1, 'Prof. Mario Gialli', 'mario.gialli@fantauni.com', '81dc9bdb52d04dc20036dbd8313ed055', 0);
+INSERT INTO utente (id, nomeutente, email, password, ruolo) VALUES (2, 'Alberto Verdi', 'alberto.verdi@fantauni.com', '81dc9bdb52d04dc20036dbd8313ed055', 1);

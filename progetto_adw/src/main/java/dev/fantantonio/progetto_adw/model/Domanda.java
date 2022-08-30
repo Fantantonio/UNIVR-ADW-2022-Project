@@ -33,6 +33,7 @@ public class Domanda {
 	@Column(name = "nome")
 	*/
 	
+	@Id
 	@Column(name = "nome")
 	private String nome;
 	
