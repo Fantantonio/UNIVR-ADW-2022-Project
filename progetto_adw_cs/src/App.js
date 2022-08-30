@@ -6,9 +6,6 @@ import PaginaTest from './components/PaginaTest';
 import PaginaFineTest from './components/PaginaFineTest';
 import PaginaCreaDomanda from './components/PaginaCreaDomanda';
 import PaginaCreaTest from './components/PaginaCreaTest';
-import CreaTest2, { AddTest } from './components/CreaTest2';
-import CreaTest3, { AddTest3 } from './components/CreaTest3';
-import CreaTest4, { AddTest4 } from './components/CreaTest4';
 //import { PaginaCreaTest } from "./components/PaginaCreaTest";
 
 import './styles/App.css';

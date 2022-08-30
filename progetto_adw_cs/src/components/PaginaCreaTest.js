@@ -3,15 +3,31 @@ import { GET_ALL_DOMANDE } from '../gql/Query';
 import { ADD_TEST }  from  '../gql/Mutation';
 import { useQuery } from '@apollo/client';
 import { ListaDomande } from './ListaDomande';
+import { useState } from 'react';
    
 
 const PaginaCreaTest = () => {
-    let nome, dataTest, ordinecasuale=true, domandeconnumero=true;
+    let nome, dataTest, ordinecasuale, domandeconnumero;
     const [createTest] = useMutation(ADD_TEST);
     const { data, loading, error } = useQuery(GET_ALL_DOMANDE);
+  
+    const [isCheckedOrdineCasuale, setIsSubscribed1] = useState(true);
+    const [isCheckedDomandeNumero, setIsSubscribed2] = useState(true);
+   
+
+    const handleChangeOrdineCasuale = () => {
+        setIsSubscribed1(current1 => !current1);
+        console.log("ordine casuale " + ordinecasuale.value)
+    }
+    
+    const handleChangeDomandeNumero = () => {
+        setIsSubscribed2(current2 => !current2);
+        console.log("domande con numero " + domandeconnumero.value)
+    }
 
     return (
         <>
+        {data &&
         <div className="card my-4">
             <div className="card-body">
                 <form onSubmit={ e => {
@@ -29,12 +45,12 @@ const PaginaCreaTest = () => {
                         <div id="crea-test-data-help" className="form-text">Inserire la data del test.</div>
                     </div>
                     <div className="mb-3 form-check">
-                        <input type="checkbox" className="form-check-input" aria-describedby="crea-test-ordine-casuale-help" value="true"  ref= { value => ordinecasuale = value} id="ordinecasuale" />
+                        <input type="checkbox" className="form-check-input" aria-describedby="crea-test-ordine-casuale-help" value={isCheckedOrdineCasuale} onChange={handleChangeOrdineCasuale} ref= { value => ordinecasuale = value} id="ordinecasuale" />
                         <label className="form-check-label" htmlFor="crea-test-ordine-casuale">Domande in ordine casuale</label>
                         <div id="crea-test-ordine-casuale-help" className="form-text">Attiva il checkbox per mostrare le domande in ordine casuale durante il test.</div>
                     </div>
                     <div className="mb-3 form-check">
-                        <input type="checkbox" className="form-check-input" aria-describedby="crea-test-domande-numerate-help" value="true"  ref= { value => domandeconnumero = value}  id="domandeconnumero"/>
+                        <input type="checkbox" className="form-check-input" aria-describedby="crea-test-domande-numerate-help" value={isCheckedDomandeNumero} onChange={handleChangeDomandeNumero} ref= { value => domandeconnumero = value}  id="domandeconnumero"/>
                         <label className="form-check-label" htmlFor="crea-test-domande-numerate">Risposte numerate</label>
                         <div id="crea-test-domande-numerate-help" className="form-text">Attiva il checkbox per mostrare il numero delle domande durante il test.</div>
                     </div>
@@ -50,16 +66,30 @@ const PaginaCreaTest = () => {
                                     />
                                 ))
                     }
-                    <div className="mt-4">
+                 <div className="mt-4">
                         <button type="submit" id="crea-test-conferma" className="btn btn-success me-1">Conferma</button>
                         <button type="button" className="btn btn-danger">Annulla</button>
                     </div>
                 </form>
             </div>
         </div>
+        }
+        
+        {loading &&
+            <div className="alert alert-info" role="alert">
+                Attendi il caricamento dei dati!
+            </div>
+        }
+        {error &&
+            <div className="alert alert-danger" role="alert">
+                Errore: {error}
+            </div>
+        }
+
+
         </>
     )
-  }
+}
 
 
   export default PaginaCreaTest

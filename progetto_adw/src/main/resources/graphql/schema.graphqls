@@ -11,6 +11,7 @@ type Mutation {
 	addRisposta(risposta: RispostaInput): Risposta
 	addTest(test: TestInput): Test
 	addDomanda(domanda: DomandaInput) : Domanda
+	addTestInTest(inTest: InTestInput): InTest
 }
 
 
@@ -19,6 +20,13 @@ input RispostaInput{
 	testo: String!
 	punteggio: Float
 	idDomanda: String!
+}
+
+input InTestInput{
+	id: ID!
+ 	domanda: Domanda!
+	datatest: String!
+	nometest: String!
 }
 
 input DomandaInput{
@@ -35,6 +43,7 @@ input TestInput{
 	ordinecasuale: Boolean
 	domandeconnumero: Boolean
 }
+
 
 
 type Risposta {
@@ -63,6 +72,7 @@ type Test {
 
 
 type InTest {
+	id:ID
 	domanda: Domanda!
 	datatest: String!
 	nometest: String!

@@ -22,7 +22,7 @@ public class InTest {
 	private Integer id;
 
 	@Column(name="datatest", nullable = false)
-	private Date datatest;
+	private String datatest;
 	
 	@Column(name="nometest", nullable = false)
 	private String nometest;
@@ -45,7 +45,7 @@ public class InTest {
 
 	
 
-	public InTest(Integer id, Date datatest, String nometest, Domanda domanda) {
+	public InTest(Integer id, String datatest, String nometest, Domanda domanda) {
 		super();
 		this.id = id;
 		this.datatest = datatest;
@@ -63,11 +63,11 @@ public class InTest {
 		this.id = id;
 	}
 
-	public Date getDatatest() {
+	public String getDatatest() {
 		return datatest;
 	}
 
-	public void setDatatest(Date datatest) {
+	public void setDatatest(String datatest) {
 		this.datatest = datatest;
 	}
 
