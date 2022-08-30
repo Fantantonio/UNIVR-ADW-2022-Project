@@ -32,7 +32,7 @@ public class Domanda {
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
 	@Column(name = "nome")
 	*/
-	
+	@Id
 	@Column(name = "nome")
 	private String nome;
 	
