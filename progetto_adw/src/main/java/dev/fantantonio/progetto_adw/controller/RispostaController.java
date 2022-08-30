@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import dev.fantantonio.progetto_adw.repository.DomandaRepository;
 
+
+import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +40,7 @@ public class RispostaController {
 	@SchemaMapping(typeName = "Mutation", value = "addRisposta")
 	Risposta addRisposta(@Argument RispostaInput risposta) {
 		Domanda domanda = domandaRepository.findById(risposta.idDomanda()).orElseThrow(() -> new IllegalArgumentException("Domanda not found"));
-		Risposta r = new Risposta(risposta.id(),risposta.punteggio(),risposta.testo(), domanda);
+		Risposta r = new Risposta(risposta.id(),risposta.testo(),risposta.punteggio(), domanda);
 
 		return rispostaRepository.save(r);
 	}
