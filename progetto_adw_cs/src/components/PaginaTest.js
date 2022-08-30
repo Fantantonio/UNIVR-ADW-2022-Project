@@ -1,6 +1,11 @@
 import React from "react";
 import RispostaSingola from "./RispostaSingola";
 
+// TODO: qui fare la chiamata a tutte le domande dato il test
+// salvare le domande in un array di stato
+// salvare la domanda attuale in un array di stato
+// abilitare il salvataggio in cache?
+
 const PaginaTest = () => {
     return (
         <>

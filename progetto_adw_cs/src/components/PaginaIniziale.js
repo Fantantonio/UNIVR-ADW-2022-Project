@@ -5,20 +5,20 @@ import TabellaTest from './TabellaTest';
 import { useQuery } from '@apollo/client';
 import { GET_ALL_TEST } from "../gql/Query";
 
-
 const PaginaIniziale = ({setPage}) => {
 
     const { data, loading, error } = useQuery(GET_ALL_TEST);
+    
 
     return (
         <>
         {data &&
             <>
             <div className="text-center my-4">
-                <button className="btn btn-lg btn-primary me-1 mb-1">
+                <button className="btn btn-lg btn-primary me-1 mb-1" onClick={() => setPage("PaginaCreaTest")}>
                     Nuovo Test
                 </button>
-                <button className="btn btn-lg btn-primary ms-1 mb-1">
+                <button className="btn btn-lg btn-primary ms-1 mb-1" onClick={() => setPage("PaginaCreaDomanda")}>
                     Nuova Domanda
                 </button>
             </div>

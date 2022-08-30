@@ -1,4 +1,4 @@
-import { Component, useState } from "react";
+import { useState } from "react";
 import "bootstrap/dist/js/bootstrap";
 import BarraNavigazione from './components/BarraNavigazione';
 import PaginaIniziale from './components/PaginaIniziale';
@@ -9,31 +9,53 @@ import PaginaCreaTest from './components/PaginaCreaTest';
 import './styles/App.css';
 
 
-import { useQuery, gql } from '@apollo/client';
-import { GET_ALL_TEST } from "./gql/Query";
-
-
-
 const App = () => {
 
-  const [user_role, setUserRole] = useState(true);
+  //const [user_role, setUserRole] = useState(true);
   const [page, setPage] = useState("PaginaIniziale");
+
+  
+  /*
+  const closeNavbar = () => {
+    const bootstrap = require("bootstrap/dist/js/bootstrap.bundle.js");
+    let offcanvas = document.getElementById('offcanvasDarkNavbar');
+    let bootstrap_offcanvas = new bootstrap.Offcanvas(offcanvas);
+    bootstrap_offcanvas.hide();
+  }
+  */
 
   return (
     <>
       <div className="App">
-        <BarraNavigazione />
+        <BarraNavigazione
+          setPage={setPage}
+        />
         <hr className="m-0"></hr>
         
         <div className="container mt-4">
           {page === "PaginaIniziale" &&
-            <PaginaIniziale 
+            <PaginaIniziale
               setPage={setPage}
             />
           }
           {page === "PaginaTest" &&
             <PaginaTest
-              page={page}
+              setPage={setPage}
+            />
+          }
+          {page === "PaginaFineTest" &&
+            <PaginaFineTest
+              setPage={setPage}
+            />
+          }
+          {page === "PaginaCreaTest" &&
+            <PaginaCreaTest
+              setPage={setPage}
+            />
+          }
+          {page === "PaginaCreaDomanda" &&
+            <PaginaCreaDomanda
+              setPage={setPage}
             />
           }
         </div>
