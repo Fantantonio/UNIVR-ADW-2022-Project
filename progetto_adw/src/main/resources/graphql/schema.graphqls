@@ -18,7 +18,7 @@ input RispostaInput{
 	id: ID!
 	testo: String!
 	punteggio: Float
-	domandaId: String!
+	idDomanda: String!
 }
 
 input DomandaInput{

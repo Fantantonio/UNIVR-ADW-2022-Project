@@ -22,20 +22,6 @@ public class RispostaController {
 
 	private final RispostaRepository rispostaRepository;
 	
-	public RispostaController(RispostaRepository rispostaRepository) {
-		this.rispostaRepository = rispostaRepository;
-	}
-	
-	@SchemaMapping(typeName = "Query", value = "tutteRisposte")
-	public List<Risposta> findAll() {
-		return rispostaRepository.findAll();
-	}
-}
-
-/*
-public class RispostaController {
-
-	private final RispostaRepository rispostaRepository;
 	private final DomandaRepository domandaRepository;
 	
 	public RispostaController(RispostaRepository rispostaRepository, DomandaRepository domandaRepository) {
@@ -48,37 +34,18 @@ public class RispostaController {
 		return rispostaRepository.findAll();
 	}
 
-
-	@SchemaMapping(typeName = "Query", value = "RandomRisposte")
-	
-	public List<Risposta> getRandom() {
-		List<Risposta> risposte = rispostaRepository.findAll();
-		int numberOfAnswer = 4;
-		List<Risposta> randomAnswer = new ArrayList<>();
-	    List<Risposta> copy = new ArrayList<>(risposte);
-		SecureRandom rand = new SecureRandom();
-		
-		for (int i = 0; i < Math.min(numberOfAnswer, risposte.size()); i++) {
-			randomAnswer.add( copy.remove(rand.nextInt(copy.size())));
-		
-	}
-	return randomAnswer;}
-	
-	
 	//@MutationMapping
 	@SchemaMapping(typeName = "Mutation", value = "addRisposta")
-	Risposta addRisposta(RispostaInput risposta) {
-		Optional<Domanda> domanda = domandaRepository.findById("Domanda 12");
-		//Domanda domanda = domandaRepository.findById(risposta.domandaId()).orElseThrow(() -> new IllegalArgumentException("Domanda not found"));
-		System.out.println("***********************************************************");
-		System.out.println(domanda);
-		//Risposta r = new Risposta(risposta.id(),risposta.punteggio(),risposta.testo(),domanda );
-		Risposta r = new Risposta(risposta.id(),risposta.punteggio(),risposta.testo(), domanda.get());
+	Risposta addRisposta(@Argument RispostaInput risposta) {
+		Domanda domanda = domandaRepository.findById(risposta.idDomanda()).orElseThrow(() -> new IllegalArgumentException("Domanda not found"));
+		Risposta r = new Risposta(risposta.id(),risposta.punteggio(),risposta.testo(), domanda);
 
 		return rispostaRepository.save(r);
 	}
 	
-	record RispostaInput(int id, Float punteggio,String testo) {}
-	
- }
-*/
+	record RispostaInput(int id, Float punteggio,String testo, String idDomanda) {}
+
+}
+
+
+

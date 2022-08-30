@@ -14,7 +14,8 @@ import javax.persistence.Table;
 public class Risposta {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
+	//@GeneratedValue(strategy = GenerationType.AUTO) .-----> Not Working
 	private Integer id;
 	
 	@Column(nullable = false)
