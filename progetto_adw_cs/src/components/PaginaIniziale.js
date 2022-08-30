@@ -1,11 +1,18 @@
-import React, { Component } from "react";
+import React from "react";
 
 import TabellaTest from './TabellaTest';
 
-class PaginaIniziale extends Component {
+import { useQuery } from '@apollo/client';
+import { GET_ALL_TEST } from "../gql/Query";
 
-    render() {
-        return (
+
+const PaginaIniziale = ({setStatePage}) => {
+
+    const { data, loading, error } = useQuery(GET_ALL_TEST);
+
+    return (
+        <>
+        {data &&
             <>
             <div className="text-center my-4">
                 <button className="btn btn-lg btn-primary me-1 mb-1">
@@ -15,8 +22,6 @@ class PaginaIniziale extends Component {
                     Nuova Domanda
                 </button>
             </div>
-
-
 
             <div className="card">
                 <h5 className="card-header">Lista dei test</h5>
@@ -34,8 +39,9 @@ class PaginaIniziale extends Component {
                             </thead>
                             <tbody className="table-group-divider">
                             {
-                                this.props.tests.map((test, index) => (
+                                data.tuttiTest.map((test, index) => (
                                     <TabellaTest 
+                                        setStatePage={setStatePage}
                                         key={index}
                                         data={test.data}
                                         nome={test.nome}
@@ -50,8 +56,20 @@ class PaginaIniziale extends Component {
                 </div>
             </div>
             </>
-        )
-    }
+        }
+        {loading &&
+            <div className="alert alert-info" role="alert">
+                Attendi il caricamento dei dati!
+            </div>
+        }
+        {error &&
+            <div className="alert alert-danger" role="alert">
+                Errore: {error}
+            </div>
+        }
+
+        </>
+    )
 }
 
 export default PaginaIniziale
