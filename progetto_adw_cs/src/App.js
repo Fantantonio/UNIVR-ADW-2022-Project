@@ -6,13 +6,14 @@ import PaginaTest from './components/PaginaTest';
 import PaginaFineTest from './components/PaginaFineTest';
 import PaginaCreaDomanda from './components/PaginaCreaDomanda';
 import PaginaCreaTest from './components/PaginaCreaTest';
+import PaginaLogin from './components/PaginaLogin';
 import './styles/App.css';
 
 
 const App = () => {
 
   //const [user_role, setUserRole] = useState(true);
-  const [page, setPage] = useState("PaginaIniziale");
+  const [page, setPage] = useState("PaginaLogin");
 
   
   /*
@@ -26,6 +27,7 @@ const App = () => {
 
   return (
     <>
+      {console.log(page)}
       <div className="App">
         <BarraNavigazione
           setPage={setPage}
@@ -33,6 +35,11 @@ const App = () => {
         <hr className="m-0"></hr>
         
         <div className="container mt-4">
+          {page === "PaginaLogin" &&
+            <PaginaLogin
+              setPage={setPage}
+            />
+          }
           {page === "PaginaIniziale" &&
             <PaginaIniziale
               setPage={setPage}
