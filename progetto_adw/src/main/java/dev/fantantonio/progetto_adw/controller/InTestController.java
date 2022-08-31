@@ -40,8 +40,8 @@ public class InTestController {
 	@SchemaMapping(typeName = "Mutation", value = "addInTest")
 	InTest addInTest(@Argument InTestInput inTest) {
 		Domanda domanda = domandaRepository.findById(inTest.idDomanda()).orElseThrow(() -> new IllegalArgumentException("Domanda not found"));
-		TestID prova = new TestID(inTest.dataTest, inTest.nomeTest);
-		Test test = testRepository.findById(prova).orElseThrow(() -> new IllegalArgumentException("Test not found"));
+		TestID testid = new TestID(inTest.dataTest, inTest.nomeTest);
+		Test test = testRepository.findById(testid).orElseThrow(() -> new IllegalArgumentException("Test not found"));
 		
 		InTest t = new InTest(inTest.id(),test.getData(), test.getNome(), domanda);
 		return inTestRepository.save(t);

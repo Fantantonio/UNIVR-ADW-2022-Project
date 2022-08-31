@@ -1,6 +1,8 @@
 import React from "react";
 
 export const ListaDomande = ({nome,testo}) => {
+    
+
     return (
         <>
         <div className="mb-3 form-check">

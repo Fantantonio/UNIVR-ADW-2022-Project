@@ -6,6 +6,7 @@ import PaginaTest from './components/PaginaTest';
 import PaginaFineTest from './components/PaginaFineTest';
 import PaginaCreaDomanda from './components/PaginaCreaDomanda';
 import PaginaCreaTest from './components/PaginaCreaTest';
+
 //import { PaginaCreaTest } from "./components/PaginaCreaTest";
 
 import './styles/App.css';
@@ -14,6 +15,7 @@ import './styles/App.css';
 import { useQuery, gql } from '@apollo/client';
 import { GET_ALL_TEST } from "./gql/Query";
 import TabellaTest from "./components/TabellaTest";
+import CreaTest from "./components/CreaTest";
 
 
 
@@ -29,7 +31,7 @@ const App = () => {
           <hr className="m-0"></hr>
           
           <div className="container mt-4">
-            <PaginaCreaTest />
+            <CreaTest />
           
           </div>
     
