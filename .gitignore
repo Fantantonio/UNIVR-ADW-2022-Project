@@ -62,8 +62,7 @@ yarn-error.log*
 .mvn
 progetto_adw/mvnw
 progetto_adw/mvnw.cmd
-/progetto_adw.zip
 node_modules
 HELP.md
-progetto_adw_cs/src/styles/App.css
-progetto_adw_cs/src/styles/App.css.map
+progetto_adw_cs/client/src/styles/App.css
+progetto_adw_cs/client/src/styles/App.css.map

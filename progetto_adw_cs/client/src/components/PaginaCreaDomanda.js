@@ -12,11 +12,12 @@ const PaginaCreaDomanda = () => {
                 <>
                 <div className="input-group">
                     <div className="input-group-text">
-                    <input id={`crea-risposta-punteggio-${id}`} className="form-check-input mt-0 w15em h15em" type="checkbox" value="" aria-label={`Attiva questo checkbox se la risposta ${id} è corretta.`} aria-describedby={`crea-risposta-punteggio-${id}-help`}/>
+                        <input id={`crea-risposta-corretta-${id}`} className="form-check-input mt-0 w15em h15em" type="checkbox" value="" aria-label={`Attiva questo checkbox se la risposta ${id} è corretta.`} aria-describedby={`crea-risposta-corretta-${id}-help`}/>
                     </div>
                     <input type="text" id={`crea-risposta-testo-${id}`} className="form-control" aria-label={`Inserisci qui il testo della risposta ${id}.`} placeholder={`Inserisci qui il testo della risposta ${id}`} />
+                    <input type="number" id={`crea-risposta-punteggio-${id}`} className="form-control" aria-label={`Inserisci qui il punteggio della risposta ${id}.`} placeholder={`Inserisci qui il punteggio della risposta ${id}`} />
                 </div>
-                <div id={`crea-risposta-punteggio-${id}-help`} className="form-text mb-3">Attiva il checkbox se la risposta {id} è corretta.</div>
+                <div id={`crea-risposta-corretta-${id}-help`} className="form-text mb-3">Attiva il checkbox se la risposta {id} è corretta.</div>
                 </>
             );
         }
@@ -38,8 +39,8 @@ const PaginaCreaDomanda = () => {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="crea-domanda-punti" className="form-label">Punti della domanda</label>
-                        <input type="number" className="form-control" id="crea-domanda-punti" aria-describedby="crea-domanda-punti-help" disabled />
-                        <div id="crea-domanda-punti-help" className="form-text">I punti della domanda sono calcolati automaticamente sommando il numero di risposte corrette.</div>
+                        <input type="number" className="form-control" id="crea-domanda-punti" aria-describedby="crea-domanda-punti-help" />
+                        <div id="crea-domanda-punti-help" className="form-text">Inserisci qui i punti della domanda.</div>
                     </div>
                     <div className="mb-3 form-check">
                         <input type="checkbox" className="form-check-input" id="crea-domanda-ordine-casuale" aria-describedby="crea-domanda-ordine-casuale-help" />
