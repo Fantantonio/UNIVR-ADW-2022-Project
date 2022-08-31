@@ -17,15 +17,15 @@ const CreaTest = () => {
     const [isCheckedDomandeNumero, setIsSubscribed2] = useState(false);
 
     const handleChangeOrdineCasuale = () => {
-        setIsSubscribed1(current2 => !current2);
-       
+        setIsSubscribed1(current1 => !current1);
         console.log("ordine casuale " + ordinecasuale.value)
     }
     
     const handleChangeDomandeNumero = () => {
-        setIsSubscribed2(current1 => !current1);
+        setIsSubscribed2(current2 => !current2);
         console.log("domande con numero " + domandeconnumero.value)
     }
+
 
     const [domande, setDomande] = useState([]);  
 
@@ -60,12 +60,12 @@ const CreaTest = () => {
                         <div id="crea-test-data-help" className="form-text">Inserire la data del test.</div>
                     </div>
                     <div className="mb-3 form-check">
-                        <input type="checkbox" className="form-check-input" aria-describedby="crea-test-ordine-casuale-help" value={isCheckedOrdineCasuale} onChange={handleChangeOrdineCasuale} ref= { value => domandeconnumero = value}  id="ordinecasuale" />
+                        <input type="checkbox" className="form-check-input" aria-describedby="crea-test-ordine-casuale-help" value={isCheckedOrdineCasuale} onChange={handleChangeOrdineCasuale} ref= { value => ordinecasuale = value}  id="ordinecasuale" />
                         <label className="form-check-label" htmlFor="crea-test-ordine-casuale">Domande in ordine casuale</label>
                         <div id="crea-test-ordine-casuale-help" className="form-text">Attiva il checkbox per mostrare le domande in ordine casuale durante il test.</div>
                     </div>
                     <div className="mb-3 form-check">
-                        <input type="checkbox" className="form-check-input" aria-describedby="crea-test-domande-numerate-help" value={isCheckedDomandeNumero} onChange={handleChangeDomandeNumero} ref= { value => ordinecasuale = value}  id="domandeconnumero"/>
+                        <input type="checkbox" className="form-check-input" aria-describedby="crea-test-domande-numerate-help" value={isCheckedDomandeNumero} onChange={handleChangeDomandeNumero} ref= { value => domandeconnumero = value}  id="domandeconnumero"/>
                         <label className="form-check-label" htmlFor="crea-test-domande-numerate">Risposte numerate</label>
                         <div id="crea-test-domande-numerate-help" className="form-text">Attiva il checkbox per mostrare il numero delle domande durante il test.</div>
                     </div>
