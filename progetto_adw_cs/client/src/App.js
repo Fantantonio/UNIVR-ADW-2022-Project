@@ -13,7 +13,7 @@ import './styles/App.css';
 const App = () => {
 
   //const [user_role, setUserRole] = useState(true);
-  const [page, setPage] = useState("PaginaLogin");
+  const [page, setPage] = useState("PaginaIniziale");
 
   
   /*
