@@ -11,7 +11,7 @@ type Mutation {
 	addRisposta(risposta: RispostaInput): Risposta
 	addTest(test: TestInput): Test
 	addDomanda(domanda: DomandaInput) : Domanda
-	addTestInTest(inTest: InTestInput): InTest
+	addInTest(inTest: InTestInput): InTest
 }
 
 
@@ -24,9 +24,9 @@ input RispostaInput{
 
 input InTestInput{
 	id: ID!
- 	domanda: Domanda!
-	datatest: String!
-	nometest: String!
+ 	idDomanda: String!
+	dataTest: String!
+	nomeTest: String!
 }
 
 input DomandaInput{
@@ -72,7 +72,6 @@ type Test {
 
 
 type InTest {
-	id:ID
 	domanda: Domanda!
 	datatest: String!
 	nometest: String!
