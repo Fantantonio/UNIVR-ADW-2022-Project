@@ -2,17 +2,9 @@ import React, { useState } from "react";
 import Axios from "axios";
 
 
-const handleSubmit = (event) => {
-    // Evita il ricaricamento della pagina
-    event.preventDefault();
+const PaginaLogin = ({setPage, setIsLogged, setUserRole}) => {
 
-    // Controlla i dati dell'utente
-
-}
-
-
-const PaginaLogin = ({setPage}) => {
-
+    // Manage login error alert
     const [loginError, setLoginError] = useState("");
 
     const showLoginError = () => {
@@ -25,36 +17,37 @@ const PaginaLogin = ({setPage}) => {
                 </div>
                 </>;
         }
-
         return content;
     }
 
 
+    // Manage login behaviour
     const [nomeutente, setNomeutente] = useState("");
     const [password, setPassword] = useState("");
 
-    const login = async () => {
-        await Axios.post("http://localhost:5000/login", {
+    const login = () => {
+        Axios.post("http://localhost:5000/login", {
             nomeutente: nomeutente,
             password: password
         }).then((response) => {
             if (response.data.message) {
                 setLoginError(response.data.message);
             } else {
-                console.log(response)
+                Axios.get("http://localhost:5000/login").then((response) => {
+                    setIsLogged(response.data.isLogged);
+                    setUserRole(response.data.userRole);
+                });
                 setPage("PaginaIniziale");
             }
         });
     }
-
-
 
     return (
         <>
         <div className="card my-4">
             <div className="card-body">
 
-                <form onSubmit={handleSubmit}>
+                <form>
                     
                     <div className="mb-3">
                         <label htmlFor="login-nome-utente" className="form-label">Nome utente</label>

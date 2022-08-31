@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "bootstrap/dist/js/bootstrap";
+import Axios from "axios";
 import BarraNavigazione from './components/BarraNavigazione';
 import PaginaIniziale from './components/PaginaIniziale';
 import PaginaTest from './components/PaginaTest';
@@ -12,22 +13,25 @@ import './styles/App.css';
 
 const App = () => {
 
-  //const [user_role, setUserRole] = useState(true);
+  Axios.defaults.withCredentials = true;
+
+  const [isLogged, setIsLogged] = useState(false);
+  const [userRole, setUserRole] = useState(undefined);
   const [page, setPage] = useState("PaginaIniziale");
 
-  
-  /*
-  const closeNavbar = () => {
-    const bootstrap = require("bootstrap/dist/js/bootstrap.bundle.js");
-    let offcanvas = document.getElementById('offcanvasDarkNavbar');
-    let bootstrap_offcanvas = new bootstrap.Offcanvas(offcanvas);
-    bootstrap_offcanvas.hide();
-  }
-  */
+
+
+  useEffect(() => {
+    Axios.get("http://localhost:5000/login").then((response) => {
+      setIsLogged(response.data.isLogged);
+      setUserRole(response.data.userRole);
+    });
+  }, []);
+
+
 
   return (
     <>
-      {console.log(page)}
       <div className="App">
         <BarraNavigazione
           setPage={setPage}
@@ -35,32 +39,37 @@ const App = () => {
         <hr className="m-0"></hr>
         
         <div className="container mt-4">
-          {page === "PaginaLogin" &&
+          {!isLogged &&
             <PaginaLogin
               setPage={setPage}
+              setIsLogged={setIsLogged}
+              setUserRole={setUserRole}
             />
           }
-          {page === "PaginaIniziale" &&
+          {(isLogged && page === "PaginaIniziale") &&
             <PaginaIniziale
               setPage={setPage}
+              userRole={userRole}
             />
           }
-          {page === "PaginaTest" &&
+          {(isLogged && page === "PaginaTest") &&
             <PaginaTest
               setPage={setPage}
+              userRole={userRole}
             />
           }
-          {page === "PaginaFineTest" &&
+          {(isLogged && page === "PaginaFineTest") &&
             <PaginaFineTest
               setPage={setPage}
+              userRole={userRole}
             />
           }
-          {page === "PaginaCreaTest" &&
+          {(isLogged && userRole === 0 && page === "PaginaCreaTest") &&
             <PaginaCreaTest
               setPage={setPage}
             />
           }
-          {page === "PaginaCreaDomanda" &&
+          {(isLogged && userRole === 0 && page === "PaginaCreaDomanda") &&
             <PaginaCreaDomanda
               setPage={setPage}
             />

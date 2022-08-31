@@ -6,7 +6,7 @@ import RispostaSingola from "./RispostaSingola";
 // salvare la domanda attuale in un array di stato
 // abilitare il salvataggio in cache?
 
-const PaginaTest = () => {
+const PaginaTest = ({setPage, userRole}) => {
     return (
         <>
         <div className="card my-4">

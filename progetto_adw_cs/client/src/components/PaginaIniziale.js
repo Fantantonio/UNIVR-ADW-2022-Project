@@ -5,7 +5,7 @@ import TabellaTest from './TabellaTest';
 import { useQuery } from '@apollo/client';
 import { GET_ALL_TEST } from "../gql/Query";
 
-const PaginaIniziale = ({setPage}) => {
+const PaginaIniziale = ({setPage, userRole}) => {
 
     const { data, loading, error } = useQuery(GET_ALL_TEST);
     
@@ -14,6 +14,7 @@ const PaginaIniziale = ({setPage}) => {
         <>
         {data &&
             <>
+            {userRole === 0 &&
             <div className="text-center my-4">
                 <button className="btn btn-lg btn-primary me-1 mb-1" onClick={() => setPage("PaginaCreaTest")}>
                     Nuovo Test
@@ -22,7 +23,7 @@ const PaginaIniziale = ({setPage}) => {
                     Nuova Domanda
                 </button>
             </div>
-
+            }
             <div className="card">
                 <h5 className="card-header">Lista dei test</h5>
                 <div className="card-body">
@@ -56,11 +57,6 @@ const PaginaIniziale = ({setPage}) => {
                 </div>
             </div>
             </>
-        }
-        {loading &&
-            <div className="alert alert-info" role="alert">
-                Attendi il caricamento dei dati!
-            </div>
         }
         {error &&
             <div className="alert alert-danger" role="alert">
