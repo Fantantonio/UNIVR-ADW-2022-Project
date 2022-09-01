@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Axios from "axios";
 import RispostaSingola from "./RispostaSingola";
 import PaginaFineTest from "./PaginaFineTest";
+import { useQuery } from '@apollo/client';
+import { GET_DOMANDA, GET_DOMANDE_OF_TEST } from "../gql/Query";
 
 
 const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
@@ -44,19 +46,32 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
 
 
     // Serve per ottenere tutti i dati della domanda dal nome, renderizzarli o passarli a risposta
-    const setQuestionAux = () => {
+    const SetQuestionAux = () => {
+        let nome = usertest.nome_ultima_domanda;
         // TODO: function that get all question data from "nome" and add them to question
-        setQuestion({testo: "bla bla bla"});
+        //const { data, loading, error } = useQuery(GET_DOMANDA, {variables: {nome}});
+        //console.log(data);
+        //setQuestion({testo: "bla bla bla"});
     }
 
 
-    const generateQuestionsOrder = () => {
+    // TODO: necessiti di una API che prenda il test e controlli ordineCasuale prima di lanciare questo
+    const GenerateQuestionsOrder = () => {
         let questionList = [];
-        let questionOrder = "";
+        let questionOrder = "1";
 
+        /*
         // TODO: get all questions and order them in a [] accordingly to Test ordineCasuale
+        // usa x.data.getDomandeOfTest per passarlo a shuffle
+        
 
-        if (questionList > 0) {
+        console.log(data);
+
+        */
+        
+        // collect all domande from each data and save them in questionList
+
+        if (questionList.length > 0) {
             shuffle(questionList);
             console.log(questionList);
 
@@ -141,7 +156,9 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
                     console.log("QUESTIONS ORDER HAS TO BE GENERATED...");
                     
                     // Genera l'ordine e lo salva in usertest
-                    let ordineDomande = generateQuestionsOrder();
+                    let ordineDomande = [];
+
+                    //console.log(data);
 
                     Axios.put("http://localhost:5000/usertest", {
                         params: {
@@ -160,36 +177,52 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
                     });
                 }
                 setUserTest(response.data);
-                setQuestionAux();
+                //SetQuestionAux();
             }
         });
     }
     
+    // x al posto di { data, loading, error }
+    const x = useQuery(GET_DOMANDE_OF_TEST, {
+        variables: {datatest: dataTest, nometest: nomeTest}
+      });
+    //const { data, loading, error } = useQuery(GET_DOMANDE_OF_TEST, {datatest: "2020-07-07", nometest: "Basi di Dati - II appello laboratorio"});
+    console.log(x.loading);
+    console.log(x.error);
+
     useEffect(() => {
         userTestGet();
     }, []);
 
     return (
         <>
-        <div className="card my-4">
-            <div className="card-body">
-                <h5 className="card-title" id="test-domanda" value={`${usertest.nome_ultima_domanda}`}>{usertest.nome_ultima_domanda}</h5>
-                <p className="card-text">{question.testo}</p>
-                
-                <hr />
-
-                <RispostaSingola
-                    question={question}
-                />
-                
-                {showSelectError()}
-                <hr />
-
-                <button className="btn btn-success" onClick={updateTest}>Conferma</button>
-            </div>
-        </div>
+            ciao
+            {x.data && <>{console.log(x.data.getDomandeOfTest)}</>}
         </>
     )
 }
+
+// TODO: ricordati domandeConNumero (index dell'array ordinato o meno => puoi anche fare una cosa del tipo (n° domanda in array / n° di dimande totali per il test che equivale al length))
+
+/*
+<div className="card my-4">
+    <div className="card-body">
+        <h5 className="card-title" id="test-domanda" value={`${usertest.nome_ultima_domanda}`}>{usertest.nome_ultima_domanda}</h5>
+        <p className="card-text">{question.testo}</p>
+        
+        <hr />
+
+        <RispostaSingola
+            question={question}
+        />
+        
+        {showSelectError()}
+        <hr />
+
+        <button className="btn btn-success" onClick={updateTest}>Conferma</button>
+    </div>
+</div>
+*/
+
 
 export default PaginaTest

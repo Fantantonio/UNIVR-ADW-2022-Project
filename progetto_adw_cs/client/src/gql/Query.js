@@ -31,3 +31,28 @@ query GetDomande{
    risposteconnumero     
  }
 }`;
+
+
+export const GET_DOMANDA = gql`
+query {
+	getDomanda(nome: $nome) {
+    nome
+    testo
+    punti
+    ordinecasuale
+    risposteconnumero
+  }
+}`;
+
+export const GET_DOMANDE_OF_TEST = gql`
+query ($datatest: String, $nometest: String) {
+	getDomandeOfTest(datatest: $datatest, nometest:$nometest) {
+    domanda {
+      nome
+      testo
+      punti
+      ordinecasuale
+      risposteconnumero
+    }
+  }
+}`;

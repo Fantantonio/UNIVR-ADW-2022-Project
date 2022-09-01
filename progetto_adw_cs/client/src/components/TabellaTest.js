@@ -5,8 +5,8 @@ const TabellaTest = ({setPage, userId, nomeTest, setNomeTest, dataTest, setDataT
     
 
     const userTestInit = () => {
-        setNomeTest(data);
-        setDataTest(nome);
+        setNomeTest(nome);
+        setDataTest(data);
         Axios.post("http://localhost:5000/usertest", {
             userId: userId,
             nomeTest: nomeTest,
