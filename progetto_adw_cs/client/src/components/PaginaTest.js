@@ -173,7 +173,7 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
         <>
         <div className="card my-4">
             <div className="card-body">
-                <h5 className="card-title" id="test-domanda" value={usertest.nome_ultima_domanda}>{usertest.nome_ultima_domanda}</h5>
+                <h5 className="card-title" id="test-domanda" value={`${usertest.nome_ultima_domanda}`}>{usertest.nome_ultima_domanda}</h5>
                 <p className="card-text">{question.testo}</p>
                 
                 <hr />
