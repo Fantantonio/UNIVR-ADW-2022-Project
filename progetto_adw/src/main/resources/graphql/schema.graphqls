@@ -5,7 +5,10 @@ type Query {
 	tutteRisposte: [Risposta]
 	tuttiTest: [Test]
 	tuttiInTest: [InTest]
+	getDomanda(nome: String): Domanda
+	getDomandeOfTest(datatest: String, nometest:String): [InTest]
 }
+
 
 type Mutation {
 	addRisposta(risposta: RispostaInput): Risposta
@@ -13,6 +16,10 @@ type Mutation {
 	addDomanda(domanda: DomandaInput) : Domanda
 }
 
+
+input nomeDomanda{
+	nome: String!
+}
 
 input RispostaInput{
 	id: ID!

@@ -29,6 +29,12 @@ public class DomandaController {
 		return domandaRepository.findAll();
 	}
 	
+	@SchemaMapping(typeName = "Query", value = "getDomanda")
+	public Domanda getDomanda(@Argument String nome) {
+		return domandaRepository.findById(nome).orElseThrow(() -> new IllegalArgumentException("Domanda not found"));
+	}
+	//record Strimg(String nome) {}
+	
 	//@MutationMapping
 	@SchemaMapping(typeName = "Mutation", value = "addDomanda")
 	Domanda addDomanda(@Argument DomandaInput domanda) {
