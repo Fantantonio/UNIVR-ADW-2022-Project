@@ -19,3 +19,13 @@ export const ADD_INTEST = gql`
   }
 }
 `;
+
+export const ADD_DOMANDA = gql`
+mutation addDomanda($nome:String!, $testo:String!, $punti:Int!, $ordinecasuale:Boolean, $risposteconnumero:Boolean) {
+  addDomanda(domanda: { nome:$nome, testo:$testo, punti:$punti, ordinecasuale:$ordinecasuale, risposteconnumero:$risposteconnumero}){
+    nome,
+    ordinecasuale
+    risposteconnumero
+  }
+}
+`;

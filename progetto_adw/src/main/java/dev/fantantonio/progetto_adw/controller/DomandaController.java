@@ -29,6 +29,8 @@ public class DomandaController {
 		return domandaRepository.findAll();
 	}
 	
+
+	
 	//@MutationMapping
 	@SchemaMapping(typeName = "Mutation", value = "addDomanda")
 	Domanda addDomanda(@Argument DomandaInput domanda) {

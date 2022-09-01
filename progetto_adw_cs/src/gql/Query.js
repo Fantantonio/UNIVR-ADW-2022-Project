@@ -31,3 +31,11 @@ query GetDomande{
    risposteconnumero     
  }
 }`;
+
+export const GET_LAST_DOMANDA = gql`
+query GetDomande{
+  tutteDomande{
+   nome,
+  
+ }
+}`;

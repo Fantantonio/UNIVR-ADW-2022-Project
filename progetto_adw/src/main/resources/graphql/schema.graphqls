@@ -5,6 +5,7 @@ type Query {
 	tutteRisposte: [Risposta]
 	tuttiTest: [Test]
 	tuttiInTest: [InTest]
+	lastDomanda: [Domanda]
 }
 
 type Mutation {

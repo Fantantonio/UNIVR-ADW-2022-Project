@@ -31,7 +31,7 @@ const App = () => {
           <hr className="m-0"></hr>
           
           <div className="container mt-4">
-            <CreaTest />
+            <PaginaCreaDomanda />
           
           </div>
     
