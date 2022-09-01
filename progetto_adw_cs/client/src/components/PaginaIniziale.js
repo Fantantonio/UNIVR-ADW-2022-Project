@@ -5,7 +5,7 @@ import TabellaTest from './TabellaTest';
 import { useQuery } from '@apollo/client';
 import { GET_ALL_TEST } from "../gql/Query";
 
-const PaginaIniziale = ({setPage, userRole}) => {
+const PaginaIniziale = ({setPage, userRole, userId, nomeTest, setNomeTest, dataTest, setDataTest}) => {
 
     const { data, loading, error } = useQuery(GET_ALL_TEST);
     
@@ -43,6 +43,11 @@ const PaginaIniziale = ({setPage, userRole}) => {
                                 data.tuttiTest.map((test, index) => (
                                     <TabellaTest 
                                         setPage={setPage}
+                                        userId={userId}
+                                        nomeTest={nomeTest}
+                                        setNomeTest={setNomeTest}
+                                        dataTest={dataTest}
+                                        setDataTest={setDataTest}
                                         key={index}
                                         data={test.data}
                                         nome={test.nome}

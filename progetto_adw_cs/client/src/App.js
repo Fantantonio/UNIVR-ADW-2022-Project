@@ -15,16 +15,20 @@ const App = () => {
 
   Axios.defaults.withCredentials = true;
 
+
   const [isLogged, setIsLogged] = useState(false);
   const [userRole, setUserRole] = useState(undefined);
+  const [userId, setUserId] = useState(undefined);
+  const [nomeTest, setNomeTest] = useState(undefined);
+  const [dataTest, setDataTest] = useState(undefined);
   const [page, setPage] = useState("PaginaIniziale");
-
 
 
   useEffect(() => {
     Axios.get("http://localhost:5000/login").then((response) => {
       setIsLogged(response.data.isLogged);
       setUserRole(response.data.userRole);
+      setUserId(response.data.userId);
     });
   }, []);
 
@@ -44,24 +48,36 @@ const App = () => {
               setPage={setPage}
               setIsLogged={setIsLogged}
               setUserRole={setUserRole}
+              setUserId={setUserId}
             />
           }
           {(isLogged && page === "PaginaIniziale") &&
             <PaginaIniziale
               setPage={setPage}
               userRole={userRole}
+              userId={userId}
+              nomeTest={nomeTest}
+              setNomeTest={setNomeTest}
+              dataTest={dataTest}
+              setDataTest={setDataTest}
             />
           }
           {(isLogged && page === "PaginaTest") &&
             <PaginaTest
               setPage={setPage}
               userRole={userRole}
+              userId={userId}
+              nomeTest={nomeTest}
+              dataTest={dataTest}
             />
           }
           {(isLogged && page === "PaginaFineTest") &&
             <PaginaFineTest
               setPage={setPage}
               userRole={userRole}
+              userId={userId}
+              nomeTest={nomeTest}
+              dataTest={dataTest}
             />
           }
           {(isLogged && userRole === 0 && page === "PaginaCreaTest") &&

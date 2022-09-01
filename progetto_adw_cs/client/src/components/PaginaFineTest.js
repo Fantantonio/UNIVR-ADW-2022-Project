@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 import RiassuntoDomandaRisposta from './RiassuntoDomandaRisposta'
 
-const PaginaFineTest = ({setPage, userRole}) => {
+const PaginaFineTest = ({setPage, userRole, userId}) => {
 
   return (
     <>

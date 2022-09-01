@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Axios from "axios";
 
 
-const PaginaLogin = ({setPage, setIsLogged, setUserRole}) => {
+const PaginaLogin = ({setPage, setIsLogged, setUserRole, setUserId}) => {
 
     // Manage login error alert
     const [loginError, setLoginError] = useState("");
@@ -36,6 +36,7 @@ const PaginaLogin = ({setPage, setIsLogged, setUserRole}) => {
                 Axios.get("http://localhost:5000/login").then((response) => {
                     setIsLogged(response.data.isLogged);
                     setUserRole(response.data.userRole);
+                    setUserId(response.data.userId);
                 });
                 setPage("PaginaIniziale");
             }
