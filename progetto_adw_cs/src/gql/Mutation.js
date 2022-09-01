@@ -29,3 +29,13 @@ mutation addDomanda($nome:String!, $testo:String!, $punti:Int!, $ordinecasuale:B
   }
 }
 `;
+
+export const ADD_RISPOSTA = gql`
+mutation addRisposta($testo:String!, $punteggio:Float!, $idDomanda:String!) {
+  addRisposta(risposta: {testo:$testo,punteggio:$punteggio, idDomanda:$idDomanda}){
+    testo,
+    punteggio
+    
+  }
+}
+`;

@@ -17,7 +17,6 @@ type Mutation {
 
 
 input RispostaInput{
-	id: ID!
 	testo: String!
 	punteggio: Float
 	idDomanda: String!

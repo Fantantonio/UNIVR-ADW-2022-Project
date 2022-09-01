@@ -2,32 +2,58 @@ import React, { Component } from 'react'
 import { GET_LAST_DOMANDA } from '../gql/Query'
 import { useQuery } from '@apollo/client';
 import { useCallback, useState } from "react";
-import { ADD_DOMANDA } from '../gql/Mutation';
+import { ADD_DOMANDA, ADD_RISPOSTA } from '../gql/Mutation';
 import { useMutation } from '@apollo/client';
+import { nominalTypeHack } from 'prop-types';
 
 export const PaginaCreaDomanda = () => {
 
-    const [creaDomanda] = useMutation(ADD_DOMANDA);
+   // let testoRisposta, punteggioRisposta;
 
+ 
+
+    const[ rispostaList, setRispostaList] = useState([{ testoRisposta:'', punteggioRisposta:'' }]);
+
+
+    const handleServiceChange = (e, index) => {
+        const {name, value} = e.target;
+        const list = [...rispostaList];
+        list[index][name] = value;
+        setRispostaList(list);
+    }
+
+    const handleRispostaAdd = () => {
+        setRispostaList([...rispostaList, { testoRisposta:'', punteggioRisposta:'' }]);
+    }
+
+    
+    const [creaDomanda] = useMutation(ADD_DOMANDA);
+    const [creaRisposta] = useMutation(ADD_RISPOSTA);
     let testo, punti, ordinecasuale, risposteconnumero;
-    const { data, loading, error } = useQuery(GET_LAST_DOMANDA);
-    let test;
-   
-    { data && data.tutteDomande.map((domanda,index) => {
-            test=domanda;
+    const { data, loading, error } =  useQuery(GET_LAST_DOMANDA);
+    let temp;
+ 
+ 
+ 
+    { data.tutteDomande.map((domanda, index) => {
+            temp=domanda;
 
         })
     }
-    var lines = test.nome.split(/\s+/);
 
- 
+   console.log(temp.nome);
+   var lines = temp.nome.split(/\s+/);
+
    var result = parseInt(lines[1])
    result=result+1;
-   let suffix = result.toString();
-   let prefix = "Domanda ";
-   let nome = prefix + suffix;
+   var suffix = result.toString();
+   var prefix = "Domanda ";
+   var nome;
+   nome = "" + prefix + suffix;
+   
    console.log(nome);
 
+ 
 
    const [isCheckedOrdineCasuale, setIsSubscribed1] = useState(false);
    const [isCheckedDomandeNumero, setIsSubscribed2] = useState(false);
@@ -43,20 +69,31 @@ export const PaginaCreaDomanda = () => {
    }
 
 
-
     return (
         <>
         {data &&
-        
 
         <div className="card my-4">
             <div className="card-body">
-   
                 <form onSubmit={ e => {
                     e.preventDefault();
-                    creaDomanda({ variables: {nome:nome, testo:testo.value, punti:punti.value, ordinecasuale:ordinecasuale.value, risposteconnumero:risposteconnumero.value}});
-                    }
-                }>
+                  creaDomanda({ variables: {nome:nome, testo:testo.value, punti:punti.value, ordinecasuale:ordinecasuale.value, risposteconnumero:risposteconnumero.value}});
+                    console.log("Domanda Creata!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            //      let temp1 = parseFloat(risposte.punteggioRisposta);
+            //      creaRisposta({ variables: { testo:risposte.testoRisposta, punteggio:temp1, idDomanda:nome }})
+            //      punteggioRisposta = parseFloat(punteggioRisposta);
+            //        
+            //      console.log(typeof temp1);
+                    for (let n of rispostaList){
+                            let temp1 = parseFloat(n.punteggioRisposta);
+                            console.log("Creazione risposta******************");
+                  
+            //               console.log("nomeeee domanda!!!!!!!!!!!!!:" + temp.nome)
+            //                let temp2 = nome.toString();
+                         
+                           creaRisposta({ variables: { testo:n.testoRisposta, punteggio:temp1, idDomanda:nome}})
+                        }
+                }}>
                     <p className="h6">Sezione domanda</p>
                     <div className="mb-3">
                         <label htmlFor="crea-domanda-testo" className="form-label">Testo della domanda</label>
@@ -80,20 +117,36 @@ export const PaginaCreaDomanda = () => {
                     </div>
 
                     <hr></hr>
-
                     <p className="h6">Sezione risposte</p>
                     <div className="alert alert-warning" role="alert">
                     Devi inserire almeno due risposte. Per inserire più risposte utilizza il bottone "Aggiungi risposta".
                     </div>
-                    <div className="input-group">
-                        <div className="input-group-text">
-                        <input id="crea-risposta-punteggio-1" className="form-check-input mt-0 w15em h15em" type="checkbox" value="" aria-label="Attiva questo checkbox se la risposta 1 è corretta." aria-describedby="crea-risposte-punteggio-1-help"/>
+                    <div id="crea-domanda-aggiungi-risposta-wrapper">
+                      
+                      {rispostaList.map((singleRisposta, index) => (
+                       
+                         <div key = {index} className = "risposte">
+                         <div className="input-group">
+                             <div className="input-group-text">
+                                 <input id={`crea-risposta-corretta-${index}`} className="form-check-input mt-0 w15em h15em" type="checkbox" value="" aria-label={`Attiva questo checkbox se la risposta ${index} è corretta.`} aria-describedby={`crea-risposta-corretta-${index}-help`} />
+                             </div>
+                             <input type="text" name="testoRisposta" className="form-control" aria-label={`Inserisci qui il testo della risposta ${index}.`} placeholder={`Inserisci qui il testo della risposta ${index}`} onChange = { e => handleServiceChange(e,index)} /> 
+                             <input type="number" name="punteggioRisposta" className="form-control" aria-label={`Inserisci qui il punteggio della risposta ${index}.`} placeholder={`Inserisci qui il punteggio della risposta ${index}` }  onChange = { e => handleServiceChange(e,index)}  />
+                         </div>
+                         <div id={`crea-risposta-corretta-${index}-help`} className="form-text mb-3">Attiva il checkbox se la risposta {index} è corretta.</div>
+                         {rispostaList.length -1 === index &&
+                                     <button type="button" className="btn btn-primary" onClick={handleRispostaAdd} >Aggiungi risposta</button>
+                         }
+             
                         </div>
-                        <input type="text" id="crea-risposta-testo-1" className="form-control" aria-label="Inserisci qui il testo della risposta 1." placeholder="Inserisci qui il testo della risposta 1" />
-                    </div>
-                    <div id="crea-domanda-risposte-numerate-help" className="form-text mb-3">Attiva il checkbox se la risposta 1 è corretta.</div>
+                         
+                      ))}
 
-                    <button type="button" className="btn btn-primary">Aggiungi risposta</button>
+
+
+
+                    </div>
+                   
 
                     <hr></hr>
 
@@ -117,9 +170,6 @@ export const PaginaCreaDomanda = () => {
                 Errore: {error}
             </div>
         }
-
-
-
         </>
 
     )

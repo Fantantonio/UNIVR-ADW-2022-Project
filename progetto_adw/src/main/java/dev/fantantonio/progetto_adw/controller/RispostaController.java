@@ -40,13 +40,13 @@ public class RispostaController {
 	@SchemaMapping(typeName = "Mutation", value = "addRisposta")
 	Risposta addRisposta(@Argument RispostaInput risposta) {
 		Domanda domanda = domandaRepository.findById(risposta.idDomanda()).orElseThrow(() -> new IllegalArgumentException("Domanda not found"));
-		Risposta r = new Risposta(risposta.id(),risposta.testo(),risposta.punteggio(), domanda);
+		Risposta r = new Risposta(risposta.testo(),risposta.punteggio(), domanda);
 
 		return rispostaRepository.save(r);
 	}
 	
-	record RispostaInput(int id, Float punteggio,String testo, String idDomanda) {}
-
+	record RispostaInput(Float punteggio,String testo, String idDomanda) {}
+	
 }
 
 
