@@ -7,6 +7,7 @@ type Query {
 	tuttiInTest: [InTest]
 	getDomanda(nome: String): Domanda
 	getDomandeOfTest(datatest: String, nometest:String): [InTest]
+	getRisposta(idDomanda: String): [Risposta]
 }
 
 
