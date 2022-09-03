@@ -56,3 +56,14 @@ query ($datatest: String, $nometest: String) {
     }
   }
 }`;
+
+
+export const GET_RISPOSTA = gql`
+query($idDomanda: String){
+	getRisposta(idDomanda: $idDomanda) {
+    id,
+    punteggio,
+		testo
+  }
+}`;
+

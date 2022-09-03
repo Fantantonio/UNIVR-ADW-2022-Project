@@ -206,11 +206,11 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
 
 
                 }
-
-                console.log("Setted userTest")
-     
-                setUserTest(response.data);
+                
+                console.log("Setted userTest");
                 console.log(usertest);
+                setUserTest(response.data);
+              
                 SetQuestionAux();
 
             }
@@ -222,6 +222,7 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
     console.log(nomeTest);
     const  domandeQuery  = useQuery(GET_DOMANDE_OF_TEST, { variables: {datatest: dataTest, nometest: nomeTest}});
     console.log(domandeQuery.loading);
+    console.log(domandeQuery.data);
     let nome;
     
     const  [getLazyResults, datiDomanda]  = useLazyQuery(GET_DOMANDA, {variables: {nome}});
@@ -237,10 +238,10 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
             <>
                 <div className="card my-4">
                     <div className="card-body">
-                    <h5 className="card-title" id="test-domanda" value={`${usertest.nome_ultima_domanda}`}>{usertest.nome_ultima_domanda}</h5>
-                     <p className="card-text">{question.testo}</p>
+                    <h5 className="card-title" id="test-domanda"> Domanda1</h5>
+                 
 
-       
+                    {console.log(question)}
                         <hr />
 
                         <RispostaSingola
