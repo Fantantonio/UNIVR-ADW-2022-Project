@@ -3,6 +3,7 @@ import Axios from "axios";
 import RispostaSingola from "./RispostaSingola";
 import PaginaFineTest from "./PaginaFineTest";
 import { useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import { GET_DOMANDA, GET_DOMANDE_OF_TEST } from "../gql/Query";
 
 
@@ -12,6 +13,10 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
     const [usertest, setUserTest] = useState(undefined);
     const [question, setQuestion] = useState(undefined);
 
+ 
+
+  
+    
     // Mostra l'errore in caso ci sia
     const showSelectError = () => {
         let content = <></>;
@@ -47,11 +52,18 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
 
     // Serve per ottenere tutti i dati della domanda dal nome, renderizzarli o passarli a risposta
     const SetQuestionAux = () => {
-        let nome = usertest.nome_ultima_domanda;
+        console.log("Sono dentro Question AuX!!!!");
+        console.log(usertest.nome_ultima_domanda);
+        console.log("Dentro Aux, Before query");
         // TODO: function that get all question data from "nome" and add them to question
-        //const { data, loading, error } = useQuery(GET_DOMANDA, {variables: {nome}});
-        //console.log(data);
-        //setQuestion({testo: "bla bla bla"});
+        getLazyResults({
+            variables: {nome:usertest.nome_ultima_domanda}
+        });
+        setQuestion(datiDomanda.data.getDomanda);
+        console.log("Dentro Aux, After query");
+      //  console.log(datiDomanda.data.getDomanda);
+        //console.log(data.getDomanda);
+        //setQuestion(data);
     }
 
 
@@ -68,20 +80,32 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
         console.log(data);
 
         */
-        
+        console.log("Before query");
+        let arrayDomanda = [];
+
+        questionList = domandeQuery.data.getDomandeOfTest;
+        arrayDomanda = Object.values(questionList);
+        console.log("Before Shuffle");
+        console.log(arrayDomanda);
+
         // collect all domande from each data and save them in questionList
 
-        if (questionList.length > 0) {
-            shuffle(questionList);
-            console.log(questionList);
+        if (arrayDomanda.length > 0) {
+            shuffle(arrayDomanda);
+            console.log("After Shuffle");
+            console.log(arrayDomanda);
 
-            questionList.forEach((question) => {
-                questionOrder += `,${question}`;
+            arrayDomanda.forEach((question) => {
+                console.log("Question");
+                console.log(question.domanda.nome);
+                questionOrder += `,${question.domanda.nome}`;
             });
 
             // sarebbe così ",Dom 1,Dom 2,..." => lo rende così "Dom 1,Dom 2,..."
             questionOrder = questionOrder.substring(1);
-
+            questionOrder = questionOrder.substring(1);
+            console.log("ordineDomande prima del return");
+            console.log(questionOrder);
             return questionOrder;
         }
         else {
@@ -140,6 +164,8 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
     // Fa il GET del test e ottiene {id, id_utente, nome_test, data_test, nome_ultima_domanda, ordine_domande, id_risposte_date}
     const userTestGet = () => {
         console.log("GETTING TEST...");
+
+
         Axios.get("http://localhost:5000/usertest", {
             params: {
                 userId: userId,
@@ -152,14 +178,16 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
             } else {
                 console.log("CHECKING TEST DATA...");
                 // Qui si entra solo la prima volta
-                if (response.data.ordine_domande === "") {
+                if (response.data.ordine_domande === null) {
                     console.log("QUESTIONS ORDER HAS TO BE GENERATED...");
                     
                     // Genera l'ordine e lo salva in usertest
                     let ordineDomande = [];
-
-                    //console.log(data);
-
+                    ordineDomande= GenerateQuestionsOrder();
+                    console.log("Ordine Domande");
+                    console.log(ordineDomande);
+                    //response.data.ordine_domande = ordineDomande;
+                
                     Axios.put("http://localhost:5000/usertest", {
                         params: {
                             id: response.data.id,
@@ -174,30 +202,72 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
                             setSelectError("");
                             userTestGet();
                         }
-                    });
+                    }); 
+
+
                 }
+
+                console.log("Setted userTest")
+     
                 setUserTest(response.data);
-                //SetQuestionAux();
+                console.log(usertest);
+                SetQuestionAux();
+
             }
         });
     }
     
-    // x al posto di { data, loading, error }
-    const x = useQuery(GET_DOMANDE_OF_TEST, {
-        variables: {datatest: dataTest, nometest: nomeTest}
-      });
-    //const { data, loading, error } = useQuery(GET_DOMANDE_OF_TEST, {datatest: "2020-07-07", nometest: "Basi di Dati - II appello laboratorio"});
-    console.log(x.loading);
-    console.log(x.error);
-
+ 
+    console.log(dataTest);
+    console.log(nomeTest);
+    const  domandeQuery  = useQuery(GET_DOMANDE_OF_TEST, { variables: {datatest: dataTest, nometest: nomeTest}});
+    console.log(domandeQuery.loading);
+    let nome;
+    
+    const  [getLazyResults, datiDomanda]  = useLazyQuery(GET_DOMANDA, {variables: {nome}});
+ 
     useEffect(() => {
         userTestGet();
+
     }, []);
 
     return (
         <>
-            ciao
-            {x.data && <>{console.log(x.data.getDomandeOfTest)}</>}
+            {domandeQuery.data &&
+            <>
+                <div className="card my-4">
+                    <div className="card-body">
+                    <h5 className="card-title" id="test-domanda" value={`${usertest.nome_ultima_domanda}`}>{usertest.nome_ultima_domanda}</h5>
+                     <p className="card-text">{question.testo}</p>
+
+       
+                        <hr />
+
+                        <RispostaSingola
+                            question={question}
+                        />
+                        
+                        {showSelectError()}
+                        <hr />
+
+                        <button className="btn btn-success" onClick={updateTest}>Conferma</button>
+                    </div>
+                </div>
+            </>}
+        
+        {domandeQuery.loading &&
+            <div className="alert alert-info" role="alert">
+                Attendi il caricamento dei dati!
+            </div>
+        }
+        {domandeQuery.error &&
+            <div className="alert alert-danger" role="alert">
+                Errore: {domandeQuery.error}
+            </div>
+        }
+
+
+       
         </>
     )
 }

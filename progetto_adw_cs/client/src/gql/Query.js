@@ -34,7 +34,7 @@ query GetDomande{
 
 
 export const GET_DOMANDA = gql`
-query {
+query ($nome: String){
 	getDomanda(nome: $nome) {
     nome
     testo
@@ -48,11 +48,11 @@ export const GET_DOMANDE_OF_TEST = gql`
 query ($datatest: String, $nometest: String) {
 	getDomandeOfTest(datatest: $datatest, nometest:$nometest) {
     domanda {
-      nome
-      testo
-      punti
-      ordinecasuale
-      risposteconnumero
+      nome,
+      testo,
+      punti,
+      ordinecasuale,
+      risposteconnumero,
     }
   }
 }`;
