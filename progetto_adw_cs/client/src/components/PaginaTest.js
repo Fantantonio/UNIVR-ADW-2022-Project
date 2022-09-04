@@ -4,7 +4,7 @@ import RispostaSingola from "./RispostaSingola";
 import PaginaFineTest from "./PaginaFineTest";
 import { useQuery } from '@apollo/client';
 import { useLazyQuery } from '@apollo/client';
-import { GET_DOMANDA, GET_DOMANDE_OF_TEST } from "../gql/Query";
+import { GET_DOMANDA, GET_DOMANDE_OF_TEST, GET_RISPOSTA } from "../gql/Query";
 import { resultKeyNameFromField } from "@apollo/client/utilities";
 
 
@@ -14,7 +14,7 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
     const [usertest, setUserTest] = useState(undefined);
     const [question, setQuestion] = useState(undefined);
     const [isLoading, setLoading] = useState(true);
-
+    const [answers, setAnswers] = useState([]);
     
     // Mostra l'errore in caso ci sia
     const showSelectError = () => {
@@ -57,6 +57,15 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
 
     }
 
+    const queryRisposte = () => {
+        return new Promise((resolve, reject) => {
+            console.log("Dentro Query Risposte");
+       
+            resolve(getLazyRisposte({variables: {idDomanda:usertest.nome_ultima_domanda}}));
+           
+        })
+    }
+
 
 
     // Serve per ottenere tutti i dati della domanda dal nome, renderizzarli o passarli a risposta
@@ -69,21 +78,15 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
             console.log("Print Result LazyQuery");
             console.log(result.data);
             setQuestion(result.data.getDomanda);
-            setLoading(false);
+            queryRisposte().then(rest => {
+           //     console.log("Risposta per domanda");
+           //     console.log(rest.data.getRisposta);
+                setAnswers(rest.data.getRisposta);
+                setLoading(false);
+            })
+          
         })
-      /*
-        getLazyResults({
-            variables: {nome:usertest.nome_ultima_domanda}
-        });*/
-    //    console.log(datiDomanda.data);
-    //    console.log("imposto domanda");
 
-        
-    //    console.log("Dentro Aux, After query");
-
-      //  console.log(datiDomanda.data.getDomanda);
-        //console.log(data.getDomanda);
-        //setQuestion(data);
     }
 
 
@@ -229,21 +232,8 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
 
                 }
                 
-
                 resolve(response.data);  
  
-                
-           
-        /*        
-                if(typeof usertest != 'undefined'){                
-                console.log("Setted userTest");
-                console.log(usertest);
-                SetQuestionAux();
-            }
-                
-      */
-
-
             }
         })})
     }
@@ -255,9 +245,11 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
    // console.log(domandeQuery.loading);
     console.log(domandeQuery.data);
     let nome;
+    let idDomanda;
     
     const  [getLazyResults, datiDomanda]  = useLazyQuery(GET_DOMANDA, {variables: {nome}});
- 
+    const  [getLazyRisposte, datiRisposta]  = useLazyQuery(GET_RISPOSTA, {variables: {idDomanda}});
+
     useEffect(() => {
         userTestGet().then(ris =>{
             console.log("Dati Risposta ottenuti:");
@@ -289,9 +281,10 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
                     <p className="card-text">{question.testo}</p>
                 
                         <hr />
-
+                        {console.log("Dentro Render")}
+                        {console.log(answers)}
                         <RispostaSingola
-                            question={question}
+                            question={answers}
                         />
                         
                         {showSelectError()}
