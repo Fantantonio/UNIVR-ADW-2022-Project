@@ -5,6 +5,7 @@ import PaginaFineTest from "./PaginaFineTest";
 import { useQuery } from '@apollo/client';
 import { useLazyQuery } from '@apollo/client';
 import { GET_DOMANDA, GET_DOMANDE_OF_TEST } from "../gql/Query";
+import { resultKeyNameFromField } from "@apollo/client/utilities";
 
 
 const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
@@ -12,10 +13,8 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
     const [selectError, setSelectError] = useState("");
     const [usertest, setUserTest] = useState(undefined);
     const [question, setQuestion] = useState(undefined);
+    const [isLoading, setLoading] = useState(true);
 
- 
-
-  
     
     // Mostra l'errore in caso ci sia
     const showSelectError = () => {
@@ -50,17 +49,38 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
     }
 
 
+    const queryApollo = () => {
+        return new Promise((resolve, reject) => {
+            resolve(getLazyResults({variables: {nome:usertest.nome_ultima_domanda}}));
+      
+        })
+
+    }
+
+
+
     // Serve per ottenere tutti i dati della domanda dal nome, renderizzarli o passarli a risposta
     const SetQuestionAux = () => {
         console.log("Sono dentro Question AuX!!!!");
         console.log(usertest.nome_ultima_domanda);
         console.log("Dentro Aux, Before query");
         // TODO: function that get all question data from "nome" and add them to question
+        queryApollo().then(result => { 
+            console.log("Print Result LazyQuery");
+            console.log(result.data);
+            setQuestion(result.data.getDomanda);
+            setLoading(false);
+        })
+      /*
         getLazyResults({
             variables: {nome:usertest.nome_ultima_domanda}
-        });
-        setQuestion(datiDomanda.data.getDomanda);
-        console.log("Dentro Aux, After query");
+        });*/
+    //    console.log(datiDomanda.data);
+    //    console.log("imposto domanda");
+
+        
+    //    console.log("Dentro Aux, After query");
+
       //  console.log(datiDomanda.data.getDomanda);
         //console.log(data.getDomanda);
         //setQuestion(data);
@@ -163,6 +183,7 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
 
     // Fa il GET del test e ottiene {id, id_utente, nome_test, data_test, nome_ultima_domanda, ordine_domande, id_risposte_date}
     const userTestGet = () => {
+        return new Promise((resolve, reject) => {
         console.log("GETTING TEST...");
 
 
@@ -177,6 +198,7 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
                 console.error(response.data.message);
             } else {
                 console.log("CHECKING TEST DATA...");
+                console.log(response);
                 // Qui si entra solo la prima volta
                 if (response.data.ordine_domande === null) {
                     console.log("QUESTIONS ORDER HAS TO BE GENERATED...");
@@ -207,41 +229,65 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
 
                 }
                 
+
+                resolve(response.data);  
+ 
+                
+           
+        /*        
+                if(typeof usertest != 'undefined'){                
                 console.log("Setted userTest");
                 console.log(usertest);
-                setUserTest(response.data);
-              
                 SetQuestionAux();
+            }
+                
+      */
+
 
             }
-        });
+        })})
     }
     
  
     console.log(dataTest);
     console.log(nomeTest);
     const  domandeQuery  = useQuery(GET_DOMANDE_OF_TEST, { variables: {datatest: dataTest, nometest: nomeTest}});
-    console.log(domandeQuery.loading);
+   // console.log(domandeQuery.loading);
     console.log(domandeQuery.data);
     let nome;
     
     const  [getLazyResults, datiDomanda]  = useLazyQuery(GET_DOMANDA, {variables: {nome}});
  
     useEffect(() => {
-        userTestGet();
+        userTestGet().then(ris =>{
+            console.log("Dati Risposta ottenuti:");
+            console.log(ris);
+            setUserTest(ris);
+            console.log(usertest);
+        })
 
     }, []);
 
+    useEffect(() =>{
+        if(typeof usertest != 'undefined'){
+            console.log("UserTest setted correctly");
+            console.log(usertest);
+            SetQuestionAux();
+        }
+    }, [usertest])
+
+    if(isLoading){
+        return  <div className="App">Loading...</div>;
+    } 
     return (
         <>
             {domandeQuery.data &&
             <>
                 <div className="card my-4">
                     <div className="card-body">
-                    <h5 className="card-title" id="test-domanda"> Domanda1</h5>
-                 
-
-                    {console.log(question)}
+                    <h5 className="card-title" id="test-domanda" value={`${usertest.nome_ultima_domanda}`}>{usertest.nome_ultima_domanda}</h5>
+                    <p className="card-text">{question.testo}</p>
+                
                         <hr />
 
                         <RispostaSingola

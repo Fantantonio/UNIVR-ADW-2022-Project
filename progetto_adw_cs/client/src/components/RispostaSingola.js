@@ -5,12 +5,12 @@ import { useQuery } from '@apollo/client';
 
 const RispostaSingola = ({question}) => {
 
-    const  {data, loading, error}  = useQuery(GET_RISPOSTA, { variables: {idDomanda:question.nome}});
+ //   const  {data, loading, error}  = useQuery(GET_RISPOSTA, { variables: {idDomanda:question.nome}});
     const [answers, setAnswers] = useState([]);
-    console.log("Dentro risposta");
-    console.log(question.nome);
+//    console.log("Dentro risposta");
+//    console.log(question.nome);
     const getAnswers = () => {
-        console.log("Dentro risposta");
+ //       console.log("Dentro risposta");
   //      console.log(data.getRisposta);
 
  //       console.log(data);
@@ -18,7 +18,7 @@ const RispostaSingola = ({question}) => {
  //       setAnswers(data.getRisposta); 
         let content = [];
         let i =0;
-
+/*
         {
             data.getRisposta.map((risposta, index) =>{
                 content.push(
@@ -32,7 +32,7 @@ const RispostaSingola = ({question}) => {
             })
         }
         
-
+*/
         /*
         for (let i = 0; i < answers.length; i += 1) {
             content.push(
