@@ -15,7 +15,11 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
     const [question, setQuestion] = useState(undefined);
     const [isLoading, setLoading] = useState(true);
     const [answers, setAnswers] = useState([]);
-    
+   
+    function refreshPage() {
+        window.location.reload();
+      }
+
     // Mostra l'errore in caso ci sia
     const showSelectError = () => {
         let content = <></>;
@@ -66,12 +70,17 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
         })
     }
 
-
+    const queryDomandeTest = () => {
+        return new Promise((resolve, reject) => {      
+            resolve(getLazyDomandeTest({ variables: {datatest: dataTest, nometest: nomeTest}} ));
+           
+        })
+    }
 
     // Serve per ottenere tutti i dati della domanda dal nome, renderizzarli o passarli a risposta
     const SetQuestionAux = () => {
         console.log("Sono dentro Question AuX!!!!");
-        console.log(usertest.nome_ultima_domanda);
+        console.log(usertest);
         console.log("Dentro Aux, Before query");
         // TODO: function that get all question data from "nome" and add them to question
         queryApollo().then(result => { 
@@ -92,21 +101,20 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
 
     // TODO: necessiti di una API che prenda il test e controlli ordineCasuale prima di lanciare questo
     const GenerateQuestionsOrder = () => {
+        return new Promise((resolve, reject) => {  
         let questionList = [];
         let questionOrder = "1";
 
         /*
         // TODO: get all questions and order them in a [] accordingly to Test ordineCasuale
-        // usa x.data.getDomandeOfTest per passarlo a shuffle
-        
+        // usa x.data.getDomandeOfTest per passarlo a shuffle        */
 
-        console.log(data);
-
-        */
         console.log("Before query");
         let arrayDomanda = [];
-
-        questionList = domandeQuery.data.getDomandeOfTest;
+        queryDomandeTest().then(preo =>{
+            questionList = preo.data.getDomandeOfTest;
+        
+     
         arrayDomanda = Object.values(questionList);
         console.log("Before Shuffle");
         console.log(arrayDomanda);
@@ -129,11 +137,14 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
             questionOrder = questionOrder.substring(1);
             console.log("ordineDomande prima del return");
             console.log(questionOrder);
-            return questionOrder;
+            resolve(questionOrder);
         }
         else {
             return "";
         }
+    })  
+
+})
     }
 
     const getNextQuestion = () => {
@@ -172,7 +183,9 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
                         console.error(response.data.message);
                     } else {
                         setSelectError("");
+                        setLoading(true);
                         userTestGet();
+                       
                     }
                 });
             } // Altrimenti modifica lo stato della pagina con quella PaginaFineTest
@@ -208,7 +221,8 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
                     
                     // Genera l'ordine e lo salva in usertest
                     let ordineDomande = [];
-                    ordineDomande= GenerateQuestionsOrder();
+                    GenerateQuestionsOrder().then(result => {
+                    ordineDomande= result;
                     console.log("Ordine Domande");
                     console.log(ordineDomande);
                     //response.data.ordine_domande = ordineDomande;
@@ -228,10 +242,11 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
                             userTestGet();
                         }
                     }); 
-
-
-                }
                 
+                });
+                }
+                setUserTest(response.data);
+                SetQuestionAux();
                 resolve(response.data);  
  
             }
@@ -241,12 +256,13 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
  
     console.log(dataTest);
     console.log(nomeTest);
-    const  domandeQuery  = useQuery(GET_DOMANDE_OF_TEST, { variables: {datatest: dataTest, nometest: nomeTest}});
-   // console.log(domandeQuery.loading);
-    console.log(domandeQuery.data);
+    //const  domandeQuery  = useQuery(GET_DOMANDE_OF_TEST, { variables: {datatest: dataTest, nometest: nomeTest}});
+    //console.log(domandeQuery.loading);
+    //console.log(domandeQuery.data);
     let nome;
     let idDomanda;
     
+    const  [getLazyDomandeTest, datiDomandeTest] =  useLazyQuery(GET_DOMANDE_OF_TEST, { variables: {datatest: dataTest, nometest: nomeTest}});
     const  [getLazyResults, datiDomanda]  = useLazyQuery(GET_DOMANDA, {variables: {nome}});
     const  [getLazyRisposte, datiRisposta]  = useLazyQuery(GET_RISPOSTA, {variables: {idDomanda}});
 
@@ -256,6 +272,7 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
             console.log(ris);
             setUserTest(ris);
             console.log(usertest);
+           
         })
 
     }, []);
@@ -273,7 +290,7 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
     } 
     return (
         <>
-            {domandeQuery.data &&
+          
             <>
                 <div className="card my-4">
                     <div className="card-body">
@@ -293,20 +310,7 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
                         <button className="btn btn-success" onClick={updateTest}>Conferma</button>
                     </div>
                 </div>
-            </>}
-        
-        {domandeQuery.loading &&
-            <div className="alert alert-info" role="alert">
-                Attendi il caricamento dei dati!
-            </div>
-        }
-        {domandeQuery.error &&
-            <div className="alert alert-danger" role="alert">
-                Errore: {domandeQuery.error}
-            </div>
-        }
-
-
+            </>
        
         </>
     )
