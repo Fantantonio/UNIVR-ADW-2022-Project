@@ -190,7 +190,24 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
                 });
             } // Altrimenti modifica lo stato della pagina con quella PaginaFineTest
             else {
-                setPage("PaginaFineTest");
+                if (usertest.id_risposte_date !== "") {
+                    idRisposteDate = `${usertest.id_risposte_date},${idRispostaData}`;
+                }
+                Axios.put("http://localhost:5000/usertest", {
+                    params: {
+                        id: usertest.id,
+                        nomeUltimaDomanda: nomeUltimaDomanda,
+                        ordineDomande: usertest.ordine_domande,
+                        idRisposteDate: idRisposteDate
+                    }
+                }).then((response) => {
+                    if (response.data.err) {
+                        console.error(response.data.message);
+                    } else {
+                        setPage("PaginaFineTest");    
+                    }
+                });
+
             }
         } else {
             setSelectError("Almeno una risposta deve essere selezionata.");
