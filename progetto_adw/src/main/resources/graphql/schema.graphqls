@@ -15,6 +15,14 @@ type Mutation {
 	addRisposta(risposta: RispostaInput): Risposta
 	addTest(test: TestInput): Test
 	addDomanda(domanda: DomandaInput) : Domanda
+	addInTest(inTest: InTestInput): InTest
+}
+
+input InTestInput{
+	id: ID!
+ 	idDomanda: String!
+	dataTest: String!
+	nomeTest: String!
 }
 
 
@@ -23,7 +31,6 @@ input nomeDomanda{
 }
 
 input RispostaInput{
-	id: ID!
 	testo: String!
 	punteggio: Float
 	idDomanda: String!
