@@ -5,6 +5,7 @@ export const GET_ALL_RISPOSTE = gql`
 query GetRisposte{
     tutteRisposte {
       id
+      testo
     }
   } 
 `

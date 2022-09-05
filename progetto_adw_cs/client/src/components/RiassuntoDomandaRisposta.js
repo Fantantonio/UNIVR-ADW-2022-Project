@@ -7,12 +7,14 @@ import { TypeOrFieldNameRegExp } from '@apollo/client/cache/inmemory/helpers';
 const RiassuntoDomandaRisposta = ({answer, question}) => {
   
   const { data, error } = useQuery(GET_ALL_DOMANDE);
+  const  queryAnswer = useQuery(GET_ALL_RISPOSTE);
   const [isLoading, setLoading] = useState(true);
   const [contenuto, setContenuto] = useState();
   
   let splittedAnswer = answer.split(",");
   let splittedQuestion = question.split(",");
   let testoDomande = [];
+  let testoRisposta = [];
 
   let content = [];
   let nomeDomanda;
@@ -29,6 +31,14 @@ const RiassuntoDomandaRisposta = ({answer, question}) => {
             }
           })
 
+
+          queryAnswer.data.tutteRisposte.map((risposta, index) => {
+            if(risposta.id === splittedAnswer[i]){
+              testoRisposta.push(risposta.testo);
+            }
+          })
+
+
           content.push(
             <>
             <h5 className="card-title">{splittedQuestion[i]}</h5>
@@ -36,7 +46,7 @@ const RiassuntoDomandaRisposta = ({answer, question}) => {
             <p className="h6">Risposta corretta:</p>
             <p className="card-text">Risposta corretta</p>
             <p className="h6">Risposta data:</p>
-            <p className="card-text">{splittedAnswer[i]}</p>
+            <p className="card-text">{testoRisposta[i]}</p>
             <hr />
             </>
             );
@@ -52,7 +62,7 @@ const RiassuntoDomandaRisposta = ({answer, question}) => {
     if (error){
       console.log('error');
     }
-    if (data) {
+    if (data && queryAnswer) {
       getSummary();
       console.log("dentro riassunto");}
   }, [error, data]);
