@@ -20,6 +20,7 @@ const RiassuntoDomandaRisposta = ({answer, question}) => {
   let nomeDomanda;
  
 
+
   const getSummary = () =>{
 
       for (let i = 0; i < splittedAnswer.length; i += 1) {
@@ -62,7 +63,8 @@ const RiassuntoDomandaRisposta = ({answer, question}) => {
     if (error){
       console.log('error');
     }
-    if (data && queryAnswer) {
+    if (data && queryAnswer.data != undefined) {
+      console.log(queryAnswer);
       getSummary();
       console.log("dentro riassunto");}
   }, [error, data]);
