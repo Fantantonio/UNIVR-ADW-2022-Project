@@ -32,9 +32,10 @@ const RispostaSingola = ({question}) => {
         let content = [];
       
 
-        let flagOrdineCasuale = true;
+        let flagOrdineCasuale=true;
         let flagRisposteNumerate=true;
-
+        console.log("Prima di tutto");
+        console.log(question);
         arrayRisposte = Object.values(question);
         
         if(flagOrdineCasuale){

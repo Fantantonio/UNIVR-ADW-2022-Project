@@ -22,6 +22,8 @@ const App = () => {
   const [nomeTest, setNomeTest] = useState(undefined);
   const [dataTest, setDataTest] = useState(undefined);
   const [page, setPage] = useState("PaginaIniziale");
+  const [flagOrdineCasuale, setFlagOrdine] = useState();
+  const [flagDomandeNumerate, setFlagDomande] = useState();
 
 
   useEffect(() => {
@@ -60,6 +62,10 @@ const App = () => {
               setNomeTest={setNomeTest}
               dataTest={dataTest}
               setDataTest={setDataTest}
+              flagOrdineCasuale={flagOrdineCasuale}
+              setFlagOrdine={setFlagOrdine}
+              flagDomandeNumerate={flagDomandeNumerate}
+              setFlagDomande={setFlagDomande}
             />
           }
           {(isLogged && page === "PaginaTest") &&
@@ -69,6 +75,8 @@ const App = () => {
               userId={userId}
               nomeTest={nomeTest}
               dataTest={dataTest}
+              flagOrdineCasuale={flagOrdineCasuale}
+              flagDomandeNumerate={flagDomandeNumerate}
             />
           }
           {(isLogged && page === "PaginaFineTest") &&

@@ -8,7 +8,8 @@ import { GET_DOMANDA, GET_DOMANDE_OF_TEST, GET_RISPOSTA } from "../gql/Query";
 import { resultKeyNameFromField } from "@apollo/client/utilities";
 
 
-const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, ordine_casuale, domande_numerate}) => {
+
+const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCasuale, flagDomandeNumerate}) => {
     
     const [selectError, setSelectError] = useState("");
     const [usertest, setUserTest] = useState(undefined);
@@ -16,8 +17,12 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, ordine_casua
     const [isLoading, setLoading] = useState(true);
     const [answers, setAnswers] = useState([]);
     const [numeratedQuestion, setNumeratedQuestion] = useState([]);
-
-   
+    console.log(nomeTest);
+    console.log("Ordine CASUALE");
+    console.log(flagOrdineCasuale);
+    let flagDomandeNumerateCasted = (flagDomandeNumerate ==='true');
+    console.log("Domande numerate");
+    console.log(flagDomandeNumerate);
     function refreshPage() {
         window.location.reload();
       }
@@ -236,8 +241,8 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, ordine_casua
     const userTestGet = () => {
         return new Promise((resolve, reject) => {
         //console.log("GETTING TEST...");
-        console.log(ordine_casuale);
-        console.log(domande_numerate);
+        //console.log(ordine_casuale);
+        //console.log(domande_numerate);
 
         Axios.get("http://localhost:5000/usertest", {
             params: {
@@ -257,8 +262,10 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, ordine_casua
                     
                     // Genera l'ordine e lo salva in usertest
                     let ordineDomande = [];
-                    let flagOrdineCasuale=true;
-                    GenerateQuestionsOrder(flagOrdineCasuale).then(result => {
+                    let flagCasted;
+                    console.log("Prima di generare ordine, check flag:");
+                    console.log(flagCasted = (flagOrdineCasuale === 'true'));
+                    GenerateQuestionsOrder(flagCasted).then(result => {
                     ordineDomande= result;
                     //console.log("Ordine Domande dopo generazione");
                     //response.data.ordine_domande = ordineDomande;
@@ -330,7 +337,7 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, ordine_casua
             <>
                 <div className="card my-4">
                     <div className="card-body">
-                    <h5 className="card-title" id="test-domanda" value={`${usertest.nome_ultima_domanda}`}>{flag ? '(' + numeratedQuestion.indexOf(usertest.nome_ultima_domanda) + '/' + numeratedQuestion.length + ')' : usertest.nome_ultima_domanda } {usertest.nome_ultima_domanda}</h5>
+                    <h5 className="card-title" id="test-domanda" value={`${usertest.nome_ultima_domanda}`}>{flagDomandeNumerateCasted ? '(' + (numeratedQuestion.indexOf(usertest.nome_ultima_domanda) + 1 )+ '/' + numeratedQuestion.length + ')' : "" } {usertest.nome_ultima_domanda}</h5>
                     <p className="card-text">{question.testo}</p>
                 
                         <hr />

@@ -5,7 +5,7 @@ import TabellaTest from './TabellaTest';
 import { useQuery } from '@apollo/client';
 import { GET_ALL_TEST } from "../gql/Query";
 
-const PaginaIniziale = ({setPage, userRole, userId, nomeTest, setNomeTest, dataTest, setDataTest}) => {
+const PaginaIniziale = ({setPage, userRole, userId, nomeTest, setNomeTest, dataTest, setDataTest, flagOrdineCasuale, setFlagOrdine, flagDomandeNumerate, setFlagDomande}) => {
 
     const { data, loading, error } = useQuery(GET_ALL_TEST);
     
@@ -51,6 +51,10 @@ const PaginaIniziale = ({setPage, userRole, userId, nomeTest, setNomeTest, dataT
                                         key={index}
                                         data={test.data}
                                         nome={test.nome}
+                                        flagOrdineCasuale= {flagOrdineCasuale} 
+                                        setFlagOrdine={setFlagOrdine}
+                                        flagDomandeNumerate={flagDomandeNumerate}
+                                        setFlagDomande={setFlagDomande}
                                         ordine_casuale={test.ordinecasuale}
                                         domande_numerate={test.domandeconnumero}
                                     />

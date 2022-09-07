@@ -1,10 +1,16 @@
 import { useState } from "react";
 import Axios from "axios";
+export const exportedVariable=false;
 
-const TabellaTest = ({setPage, userId, nomeTest, setNomeTest, dataTest, setDataTest, data, nome, ordine_casuale, domande_numerate}) => {
-    
+const TabellaTest = ({setPage, userId, nomeTest, setNomeTest, dataTest, setDataTest, data, nome, flagOrdineCasuale, setFlagOrdine, flagDomandeNumerate, setFlagDomande,ordine_casuale, domande_numerate}) => {
+     
 
     const userTestInit = () => {
+        console.log("dentro tabella test");
+        //console.log(ordine_casuale);
+        //console.log(flagOrdineCasuale);
+        setFlagOrdine(ordine_casuale.toString());
+        setFlagDomande(domande_numerate.toString());
         setNomeTest(nome);
         setDataTest(data);
         Axios.post("http://localhost:5000/usertest", {
@@ -39,4 +45,5 @@ const TabellaTest = ({setPage, userId, nomeTest, setNomeTest, dataTest, setDataT
     )
 }
 
-export default TabellaTest
+export default TabellaTest;
+
