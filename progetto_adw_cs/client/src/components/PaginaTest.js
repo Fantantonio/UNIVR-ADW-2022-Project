@@ -16,13 +16,15 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
     const [question, setQuestion] = useState(undefined);
     const [isLoading, setLoading] = useState(true);
     const [answers, setAnswers] = useState([]);
+    const [isFirstInstance, setFirstInstance] = useState(false);
     const [numeratedQuestion, setNumeratedQuestion] = useState([]);
-    console.log(nomeTest);
+    //console.log(nomeTest);
     console.log("Ordine CASUALE");
     console.log(flagOrdineCasuale);
     let flagDomandeNumerateCasted = (flagDomandeNumerate ==='true');
-    console.log("Domande numerate");
-    console.log(flagDomandeNumerate);
+    let flagCasted = (flagOrdineCasuale === 'true');
+    //console.log("Domande numerate");
+    //console.log(flagDomandeNumerate);
     function refreshPage() {
         window.location.reload();
       }
@@ -86,6 +88,9 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
 
     // Serve per ottenere tutti i dati della domanda dal nome, renderizzarli o passarli a risposta
     const SetQuestionAux = () => {
+        let questionList = [];
+        let arrayDomanda = [];
+        let arrayDomandeNumerated_temp = [];
         //console.log("Sono dentro Question AuX!!!!");
         //console.log(usertest);
         //console.log("Dentro Aux, Before query");
@@ -97,8 +102,30 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
             queryRisposte().then(rest => {
            //     //console.log("Risposta per domanda");
            //     //console.log(rest.data.getRisposta);
+           //     console.log("Ordine Domande in set Quesiton Aux");
+           //     console.log(usertest.ordine_domande);
+                if(!isFirstInstance){
+
+                    queryDomandeTest().then(result =>{
+   
+                        questionList = result.data.getDomandeOfTest;
+                        arrayDomanda = Object.values(questionList);
+                        
+        
+                        arrayDomanda.forEach((question) => {
+                            arrayDomandeNumerated_temp.push(question.domanda.nome); //ArrayTemporaneo per lo useSet in modo da utilizzarlo nel render
+                    
+                        });
+
+                        setNumeratedQuestion(arrayDomandeNumerated_temp);
+       
+                    })    
+                  
+                }
+
                 setAnswers(rest.data.getRisposta);
                 setLoading(false);
+
             })
           
         })
@@ -146,8 +173,8 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
 
                     if (arrayDomanda.length > 0) {
                         shuffle(arrayDomanda);
-                        console.log("After Shuffle");
-                        console.log(arrayDomanda);
+                        //console.log("After Shuffle");
+                        //console.log(arrayDomanda);
 
                         arrayDomanda.forEach((question) => {
                             questionRandomOrder += `,${question.domanda.nome}`;
@@ -157,8 +184,8 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
                         questionRandomOrder = questionRandomOrder.substring(1);
                         questionRandomOrder = questionRandomOrder.substring(1);
 
-                        console.log("Prima di return dentro ordine casuale");
-                        console.log(questionRandomOrder);
+                        //console.log("Prima di return dentro ordine casuale");
+                        //console.log(questionRandomOrder);
 
                         resolve(questionRandomOrder);
                     }
@@ -257,14 +284,14 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
                 //console.log("CHECKING TEST DATA...");
                 //console.log(response);
                 // Qui si entra solo la prima volta
-                if (response.data.ordine_domande === null) {
+                if (response.data.ordine_domande === "") {
                     //console.log("QUESTIONS ORDER HAS TO BE GENERATED...");
-                    
+                    setFirstInstance(true);
                     // Genera l'ordine e lo salva in usertest
                     let ordineDomande = [];
-                    let flagCasted;
-                    console.log("Prima di generare ordine, check flag:");
-                    console.log(flagCasted = (flagOrdineCasuale === 'true'));
+             
+                    //console.log("Prima di generare ordine, check flag:");
+                    //console.log(flagCasted = (flagOrdineCasuale === 'true'));
                     GenerateQuestionsOrder(flagCasted).then(result => {
                     ordineDomande= result;
                     //console.log("Ordine Domande dopo generazione");
@@ -323,7 +350,7 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
     useEffect(() =>{
         if(typeof usertest != 'undefined'){
             //console.log("UserTest setted correctly");
-            //console.log(usertest);
+            console.log("Enntro in prima istanza o no???");
             SetQuestionAux();
         }
     }, [usertest])

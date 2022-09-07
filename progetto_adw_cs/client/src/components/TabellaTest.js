@@ -7,16 +7,14 @@ const TabellaTest = ({setPage, userId, nomeTest, setNomeTest, dataTest, setDataT
 
     const userTestInit = () => {
         console.log("dentro tabella test");
-        //console.log(ordine_casuale);
-        //console.log(flagOrdineCasuale);
         setFlagOrdine(ordine_casuale.toString());
         setFlagDomande(domande_numerate.toString());
         setNomeTest(nome);
         setDataTest(data);
         Axios.post("http://localhost:5000/usertest", {
             userId: userId,
-            nomeTest: nomeTest,
-            dataTest: dataTest,
+            nomeTest: nome,
+            dataTest: data,
         }).then((response) => {
             if (response.data.message) {
                 console.error(response.data.message);

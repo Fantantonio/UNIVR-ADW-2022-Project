@@ -56,6 +56,7 @@ app.get("/usertest", async (req, res) => {
     const userId = req.query.userId;
     const nomeTest = req.query.nomeTest;
     const dataTest = req.query.dataTest;
+    
     const response = await pool.query("SELECT * FROM utentetest WHERE id_utente = $1 AND nome_test = $2 AND data_test = $3;", [userId, nomeTest, dataTest]);
     if (response.err) {
         res.send({err: response.err});
@@ -96,10 +97,15 @@ app.put("/usertest", async (req, res) => {
 });
 
 
+
 app.post("/usertest", async (req, res) => {
     const userId = req.body.userId;
     const nomeTest = req.body.nomeTest;
     const dataTest = req.body.dataTest;
+   
+    console.log("----------------------------Dentro post------------------------------------");
+    console.log(userId);
+    console.log(nomeTest);
     const response = await pool.query("SELECT * FROM utentetest WHERE id_utente = $1 AND nome_test = $2 AND data_test = $3;", [userId, nomeTest, dataTest]);
     if (response.err) {
         res.send({err: response.err});
@@ -109,11 +115,14 @@ app.post("/usertest", async (req, res) => {
         res.send(response.rows);
     }
     else {
+        console.log("Dentro else della post");
+        console.log(nomeTest);
         pool.query(
-            "INSERT INTO utentetest (id_utente, nome_test, data_test) VALUES ($1, $2, $3)",
-            [userId, nomeTest, dataTest],
+            "INSERT INTO utentetest (id_utente, nome_test, data_test) VALUES ($1, $2, $3)", [userId, nomeTest, dataTest],
             (err, result) => {
-                res.send({err: err});
+                console.log("Dentro errore");
+                console.log(err);
+                //res.send({err: err}); ---> ???? Da verificare. Se abilitiamo l'istruzione la POST crasha perchè vengono ritornate piu response
             }
         );
 
