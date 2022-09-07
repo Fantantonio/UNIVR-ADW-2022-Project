@@ -343,7 +343,7 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
                         <hr />
 
                         <RispostaSingola
-                            question={answers}
+                            question={answers} flagOrdineCasualeRisposte={question.ordinecasuale} flagRisposteNumerate={question.risposteconnumero}
                         />
                         
                         {showSelectError()}

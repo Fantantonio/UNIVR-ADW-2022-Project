@@ -3,7 +3,7 @@ import { GET_RISPOSTA } from "../gql/Query";
 import { useQuery } from '@apollo/client';
 
 
-const RispostaSingola = ({question}) => {
+const RispostaSingola = ({question, flagOrdineCasualeRisposte, flagRisposteNumerate }) => {
 
     function shuffle(array) {
         let currentIndex = array.length,  randomIndex;
@@ -32,13 +32,11 @@ const RispostaSingola = ({question}) => {
         let content = [];
       
 
-        let flagOrdineCasuale=true;
-        let flagRisposteNumerate=true;
         console.log("Prima di tutto");
         console.log(question);
         arrayRisposte = Object.values(question);
         
-        if(flagOrdineCasuale){
+        if(flagOrdineCasualeRisposte){
             shuffle(arrayRisposte);
             for (let i = 0; i < arrayRisposte.length; i += 1) {
                 content.push(
