@@ -8,13 +8,15 @@ import { GET_DOMANDA, GET_DOMANDE_OF_TEST, GET_RISPOSTA } from "../gql/Query";
 import { resultKeyNameFromField } from "@apollo/client/utilities";
 
 
-const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
+const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, ordine_casuale, domande_numerate}) => {
     
     const [selectError, setSelectError] = useState("");
     const [usertest, setUserTest] = useState(undefined);
     const [question, setQuestion] = useState(undefined);
     const [isLoading, setLoading] = useState(true);
     const [answers, setAnswers] = useState([]);
+    const [numeratedQuestion, setNumeratedQuestion] = useState([]);
+
    
     function refreshPage() {
         window.location.reload();
@@ -52,7 +54,7 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
         return array;
     }
 
-
+    // Get all data question from "nome" and add them to question in SetQuestionAux
     const queryApollo = () => {
         return new Promise((resolve, reject) => {
             resolve(getLazyResults({variables: {nome:usertest.nome_ultima_domanda}}));
@@ -63,7 +65,7 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
 
     const queryRisposte = () => {
         return new Promise((resolve, reject) => {
-            console.log("Dentro Query Risposte");
+            //console.log("Dentro Query Risposte");
        
             resolve(getLazyRisposte({variables: {idDomanda:usertest.nome_ultima_domanda}}));
            
@@ -79,17 +81,17 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
 
     // Serve per ottenere tutti i dati della domanda dal nome, renderizzarli o passarli a risposta
     const SetQuestionAux = () => {
-        console.log("Sono dentro Question AuX!!!!");
-        console.log(usertest);
-        console.log("Dentro Aux, Before query");
+        //console.log("Sono dentro Question AuX!!!!");
+        //console.log(usertest);
+        //console.log("Dentro Aux, Before query");
         // TODO: function that get all question data from "nome" and add them to question
         queryApollo().then(result => { 
-            console.log("Print Result LazyQuery");
-            console.log(result.data);
+            //console.log("Print Result LazyQuery");
+            //console.log(result.data);
             setQuestion(result.data.getDomanda);
             queryRisposte().then(rest => {
-           //     console.log("Risposta per domanda");
-           //     console.log(rest.data.getRisposta);
+           //     //console.log("Risposta per domanda");
+           //     //console.log(rest.data.getRisposta);
                 setAnswers(rest.data.getRisposta);
                 setLoading(false);
             })
@@ -100,51 +102,67 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
 
 
     // TODO: necessiti di una API che prenda il test e controlli ordineCasuale prima di lanciare questo
-    const GenerateQuestionsOrder = () => {
+    const GenerateQuestionsOrder = (flagOrdineCasuale) => {
         return new Promise((resolve, reject) => {  
-        let questionList = [];
-        let questionOrder = "1";
+            let questionList = [];
+            let questionOrder = "1";
+            let questionRandomOrder = "1";
+            let arrayDomanda = [];
+            let arrayDomandeNumerated_temp = [];
+            /*
+            // TODO: get all questions and order them in a [] accordingly to Test ordineCasuale
+            // usa x.data.getDomandeOfTest per passarlo a shuffle        */
 
-        /*
-        // TODO: get all questions and order them in a [] accordingly to Test ordineCasuale
-        // usa x.data.getDomandeOfTest per passarlo a shuffle        */
 
-        console.log("Before query");
-        let arrayDomanda = [];
-        queryDomandeTest().then(preo =>{
-            questionList = preo.data.getDomandeOfTest;
-        
-     
-        arrayDomanda = Object.values(questionList);
-        console.log("Before Shuffle");
-        console.log(arrayDomanda);
+            queryDomandeTest().then(result =>{
+   
+                questionList = result.data.getDomandeOfTest;
+                arrayDomanda = Object.values(questionList);
+                
 
-        // collect all domande from each data and save them in questionList
+                arrayDomanda.forEach((question) => {
+                    arrayDomandeNumerated_temp.push(question.domanda.nome); //ArrayTemporaneo per lo useSet in modo da utilizzarlo nel render
+                    questionOrder += `,${question.domanda.nome}`;
+                });
 
-        if (arrayDomanda.length > 0) {
-            shuffle(arrayDomanda);
-            console.log("After Shuffle");
-            console.log(arrayDomanda);
+                setNumeratedQuestion(arrayDomandeNumerated_temp);
+                console.log("Dentro generato ordine");
+                console.log(questionOrder);
 
-            arrayDomanda.forEach((question) => {
-                console.log("Question");
-                console.log(question.domanda.nome);
-                questionOrder += `,${question.domanda.nome}`;
-            });
+                if(!flagOrdineCasuale){              
+                    // sarebbe così ",Dom 1,Dom 2,..." => lo rende così "Dom 1,Dom 2,..."
+                    questionOrder = questionOrder.substring(1);
+                    questionOrder = questionOrder.substring(1);
 
-            // sarebbe così ",Dom 1,Dom 2,..." => lo rende così "Dom 1,Dom 2,..."
-            questionOrder = questionOrder.substring(1);
-            questionOrder = questionOrder.substring(1);
-            console.log("ordineDomande prima del return");
-            console.log(questionOrder);
-            resolve(questionOrder);
-        }
-        else {
-            return "";
-        }
-    })  
+                    resolve(questionOrder);
+                
+                }else{
+                    // collect all domande from each data and save them in questionList
 
-})
+                    if (arrayDomanda.length > 0) {
+                        shuffle(arrayDomanda);
+                        console.log("After Shuffle");
+                        console.log(arrayDomanda);
+
+                        arrayDomanda.forEach((question) => {
+                            questionRandomOrder += `,${question.domanda.nome}`;
+                        });
+
+                        // sarebbe così ",Dom 1,Dom 2,..." => lo rende così "Dom 1,Dom 2,..."
+                        questionRandomOrder = questionRandomOrder.substring(1);
+                        questionRandomOrder = questionRandomOrder.substring(1);
+
+                        console.log("Prima di return dentro ordine casuale");
+                        console.log(questionRandomOrder);
+
+                        resolve(questionRandomOrder);
+                    }
+                    else {
+                        return "";}
+                }
+
+            })  
+        })
     }
 
     const getNextQuestion = () => {
@@ -160,7 +178,7 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
 
     // Fa il PUT dopo il click su conferma
     const updateTest = () => {
-        console.log("UPDATING...");
+        //console.log("UPDATING...");
         if (document.querySelector('input[type=radio]:checked') !== null) {
             let idRispostaData = document.querySelector('input[type=radio]:checked').value;
             let idRisposteDate = `${idRispostaData}`;
@@ -217,8 +235,9 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
     // Fa il GET del test e ottiene {id, id_utente, nome_test, data_test, nome_ultima_domanda, ordine_domande, id_risposte_date}
     const userTestGet = () => {
         return new Promise((resolve, reject) => {
-        console.log("GETTING TEST...");
-
+        //console.log("GETTING TEST...");
+        console.log(ordine_casuale);
+        console.log(domande_numerate);
 
         Axios.get("http://localhost:5000/usertest", {
             params: {
@@ -230,18 +249,18 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
             if (response.data.message) {
                 console.error(response.data.message);
             } else {
-                console.log("CHECKING TEST DATA...");
-                console.log(response);
+                //console.log("CHECKING TEST DATA...");
+                //console.log(response);
                 // Qui si entra solo la prima volta
                 if (response.data.ordine_domande === null) {
-                    console.log("QUESTIONS ORDER HAS TO BE GENERATED...");
+                    //console.log("QUESTIONS ORDER HAS TO BE GENERATED...");
                     
                     // Genera l'ordine e lo salva in usertest
                     let ordineDomande = [];
-                    GenerateQuestionsOrder().then(result => {
+                    let flagOrdineCasuale=true;
+                    GenerateQuestionsOrder(flagOrdineCasuale).then(result => {
                     ordineDomande= result;
-                    console.log("Ordine Domande");
-                    console.log(ordineDomande);
+                    //console.log("Ordine Domande dopo generazione");
                     //response.data.ordine_domande = ordineDomande;
                 
                     Axios.put("http://localhost:5000/usertest", {
@@ -270,12 +289,12 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
         })})
     }
     
- 
-    console.log(dataTest);
-    console.log(nomeTest);
+
+    //console.log(dataTest);
+    //console.log(nomeTest);
     //const  domandeQuery  = useQuery(GET_DOMANDE_OF_TEST, { variables: {datatest: dataTest, nometest: nomeTest}});
-    //console.log(domandeQuery.loading);
-    //console.log(domandeQuery.data);
+    ////console.log(domandeQuery.loading);
+    ////console.log(domandeQuery.data);
     let nome;
     let idDomanda;
     
@@ -285,19 +304,19 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
 
     useEffect(() => {
         userTestGet().then(ris =>{
-            console.log("Dati Risposta ottenuti:");
-            console.log(ris);
+            //console.log("Dati Risposta ottenuti:");
+            //console.log(ris);
             setUserTest(ris);
-            console.log(usertest);
+            //console.log(usertest);
            
         })
 
     }, []);
-
+    let flag =true;
     useEffect(() =>{
         if(typeof usertest != 'undefined'){
-            console.log("UserTest setted correctly");
-            console.log(usertest);
+            //console.log("UserTest setted correctly");
+            //console.log(usertest);
             SetQuestionAux();
         }
     }, [usertest])
@@ -307,16 +326,15 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
     } 
     return (
         <>
-          
+     
             <>
                 <div className="card my-4">
                     <div className="card-body">
-                    <h5 className="card-title" id="test-domanda" value={`${usertest.nome_ultima_domanda}`}>{usertest.nome_ultima_domanda}</h5>
+                    <h5 className="card-title" id="test-domanda" value={`${usertest.nome_ultima_domanda}`}>{flag ? '(' + numeratedQuestion.indexOf(usertest.nome_ultima_domanda) + '/' + numeratedQuestion.length + ')' : usertest.nome_ultima_domanda } {usertest.nome_ultima_domanda}</h5>
                     <p className="card-text">{question.testo}</p>
                 
                         <hr />
-                        {console.log("Dentro Render")}
-                        {console.log(answers)}
+
                         <RispostaSingola
                             question={answers}
                         />
@@ -328,7 +346,7 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest}) => {
                     </div>
                 </div>
             </>
-       
+        
         </>
     )
 }

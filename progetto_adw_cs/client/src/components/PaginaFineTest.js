@@ -6,7 +6,7 @@ import { useState } from 'react';
 const PaginaFineTest = ({setPage, userRole, userId,nomeTest, dataTest}) => {
     const [questionSummary, setQuestionSummary] = useState([]);
     const [answersSummary, setAnswersSummary] = useState([]);
-    const [isLoading, setLoading] = useState(true);
+    const [isLoading2, setLoading2] = useState(true);
 
 
 
@@ -25,10 +25,10 @@ const PaginaFineTest = ({setPage, userRole, userId,nomeTest, dataTest}) => {
       let test;
       setAnswersSummary(response.data.id_risposte_date);
       setQuestionSummary(response.data.ordine_domande);
-      setLoading(false);
+      setLoading2(false);
     }})
 
- if(isLoading){
+ if(isLoading2){
       return  <div className="App">Loading...</div>;
     } else{ 
  return (

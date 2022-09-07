@@ -6,6 +6,10 @@ query GetRisposte{
     tutteRisposte {
       id
       testo
+      punteggio
+      domanda {
+        nome
+      }
     }
   } 
 `
