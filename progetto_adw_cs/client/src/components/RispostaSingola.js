@@ -41,7 +41,7 @@ const RispostaSingola = ({question, flagOrdineCasualeRisposte, flagRisposteNumer
             for (let i = 0; i < arrayRisposte.length; i += 1) {
                 content.push(
                     <>
-                    <input className="form-check-input" type="radio" name={`risposta-${arrayRisposte[i].id}`} id={`risposta-${arrayRisposte[i].id}`} value={`${arrayRisposte[i].id}`} />
+                    <input className="form-check-input me-2" type="radio" name={`risposta-${arrayRisposte[i].id}`} id={`risposta-${arrayRisposte[i].id}`} value={`${arrayRisposte[i].id}`} />
                     <label className="form-check-label" htmlFor={`risposta-${arrayRisposte[i].id}`}>
                      {flagRisposteNumerate ? '_' + arrayRisposte[i].id + ') ' + arrayRisposte[i].testo: arrayRisposte[i].testo}
                     </label><br></br>
@@ -52,7 +52,7 @@ const RispostaSingola = ({question, flagOrdineCasualeRisposte, flagRisposteNumer
             for (let i = 0; i < question.length; i += 1) {
                 content.push(
                     <>
-                    <input className="form-check-input" type="radio" name={`risposta-${question[i].id}`} id={`risposta-${question[i].id}`} value={`${question[i].id}`} />
+                    <input className="form-check-input me-2" type="radio" name={`risposta-${question[i].id}`} id={`risposta-${question[i].id}`} value={`${question[i].id}`} />
                     <label className="form-check-label" htmlFor={`risposta-${question[i].id}`}>
                      {flagRisposteNumerate ? '_' + question[i].id + ') ' + question[i].testo: question[i].testo}
                     </label><br></br>

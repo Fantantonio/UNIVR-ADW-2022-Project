@@ -12,4 +12,6 @@ import dev.fantantonio.progetto_adw.model.Risposta;
 @Repository
 public interface RispostaRepository extends JpaRepository<Risposta, Integer> {
 
+	List<Risposta> findAllByOrderByIdAsc();
+
 }

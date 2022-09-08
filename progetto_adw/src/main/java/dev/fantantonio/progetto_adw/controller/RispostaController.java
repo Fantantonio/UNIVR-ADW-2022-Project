@@ -33,13 +33,13 @@ public class RispostaController {
 	}
 	
 	@SchemaMapping(typeName = "Query", value = "tutteRisposte")
-	public List<Risposta> findAll() {
-		return rispostaRepository.findAll();
+	public List<Risposta> findAllByOrderByIdAsc() {
+		return rispostaRepository.findAllByOrderByIdAsc();
 	}
 
 	@SchemaMapping(typeName = "Query", value = "getRisposta")
 	List<Risposta> getRisposta(@Argument String idDomanda) {
-		List<Risposta> tutteRisposte = rispostaRepository.findAll();
+		List<Risposta> tutteRisposte = rispostaRepository.findAllByOrderByIdAsc();
 		List<Risposta> filteredRisposte = new ArrayList<Risposta>();
 		for(int i=0; i<tutteRisposte.size(); i ++) {
 			if(tutteRisposte.get(i).getDomanda().getNome().equals(idDomanda)) {
