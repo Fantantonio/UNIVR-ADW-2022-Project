@@ -127,7 +127,7 @@ const PaginaCreaDomanda = ({setPage}) => {
                                     <input id={`crea-risposta-corretta-${index}`} className="form-check-input mt-0 w15em h15em" type="checkbox" value="" aria-label={`Attiva questo checkbox se la risposta ${index} è corretta.`} aria-describedby={`crea-risposta-corretta-${index}-help`} />
                                 </div>
                                 <input type="text" name="testoRisposta" className="form-control" aria-label={`Inserisci qui il testo della risposta ${index}.`} placeholder={`Inserisci qui il testo della risposta ${index}`} onChange = { e => handleServiceChange(e,index)} /> 
-                                <input type="number" name="punteggioRisposta" className="form-control" aria-label={`Inserisci qui il punteggio della risposta ${index}.`} placeholder={`Inserisci qui il punteggio della risposta ${index}` }  onChange = { e => handleServiceChange(e,index)}  />
+                                <input type="number" name="punteggioRisposta" className="form-control" min="0" max="1" step="0.1" aria-label={`Inserisci qui il punteggio della risposta ${index}.`} placeholder={`Inserisci qui il punteggio della risposta ${index}` }  onChange = { e => handleServiceChange(e,index)}  />
                             </div>
                             <div id={`crea-risposta-corretta-${index}-help`} className="form-text mb-3">Attiva il checkbox se la risposta {index} è corretta.</div>
                             {rispostaList.length -1 === index &&

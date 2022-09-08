@@ -17,6 +17,7 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
     const [isLoading, setLoading] = useState(true);
     const [answers, setAnswers] = useState([]);
     const [isFirstInstance, setFirstInstance] = useState(false);
+    const [isTestCompleted, setTestCompleted] = useState(false);
     const [numeratedQuestion, setNumeratedQuestion] = useState([]);
     //console.log(nomeTest);
     console.log("Ordine CASUALE");
@@ -281,9 +282,14 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
             if (response.data.message) {
                 console.error(response.data.message);
             } else {
-                //console.log("CHECKING TEST DATA...");
+                console.log("CHECKING TEST DATA...");
                 //console.log(response);
                 // Qui si entra solo la prima volta
+                if (response.data.nome_ultima_domanda === "false") {
+                    console.log("Il test è gia stato effettuato");
+                    setTestCompleted(true);
+                }
+
                 if (response.data.ordine_domande === "") {
                     //console.log("QUESTIONS ORDER HAS TO BE GENERATED...");
                     setFirstInstance(true);
@@ -354,6 +360,11 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
             SetQuestionAux();
         }
     }, [usertest])
+
+    if(isTestCompleted){
+        return  <div className="App">Test completato...</div>;
+
+    }
 
     if(isLoading){
         return  <div className="App">Loading...</div>;

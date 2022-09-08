@@ -16,6 +16,11 @@ const RiassuntoDomandaRisposta = ({answer, question}) => {
   let testoDomande = [];
   let testoRisposta = [];
   let rispostaCorretta = [];
+  let punteggioTotaleTest=0;
+  let punteggioConseguito=0;
+
+  let punteggioDomanda=0;
+  let punteggioRisposta=0
 
   let content = [];
   let nomeDomanda;
@@ -30,6 +35,9 @@ const RiassuntoDomandaRisposta = ({answer, question}) => {
           data.tutteDomande.map((domanda, index) => {
             if(domanda.nome === nomeDomanda){
               testoDomande.push(domanda.testo);
+              punteggioTotaleTest=punteggioTotaleTest+domanda.punti;
+              punteggioDomanda = domanda.punti;
+            //  console.log(punteggioTotaleTest);
             }
           })
 
@@ -37,6 +45,7 @@ const RiassuntoDomandaRisposta = ({answer, question}) => {
           queryAnswer.data.tutteRisposte.map((risposta, index) => {
             if(risposta.id === splittedAnswer[i]){
               testoRisposta.push(risposta.testo);
+              punteggioRisposta = risposta.punteggio;             
             }
             
             if(risposta.domanda.nome === nomeDomanda && risposta.punteggio == 1){
@@ -45,6 +54,8 @@ const RiassuntoDomandaRisposta = ({answer, question}) => {
             }
           })
 
+          punteggioConseguito = punteggioConseguito + (punteggioDomanda * punteggioRisposta);
+          console.log(punteggioConseguito);
 
           content.push(
             <>
@@ -54,11 +65,19 @@ const RiassuntoDomandaRisposta = ({answer, question}) => {
             <p className="card-text">{rispostaCorretta}</p>
             <p className="h6">Risposta data:</p>
             <p className="card-text">{testoRisposta[i]}</p>
+            <p className="h6">Punteggio conseguito:</p>
+            <p className="card-text">{punteggioDomanda * punteggioRisposta}/{punteggioDomanda}</p>
             <hr />
             </>
             );
       }
-  
+
+      content.push(<>
+      <p className="h6">Totale Punteggio:</p>
+      <p className="card-text">{punteggioConseguito}/{punteggioTotaleTest}</p> 
+      </>
+      );
+
       setLoading1(false);
       setContenuto(content);
       return content;
