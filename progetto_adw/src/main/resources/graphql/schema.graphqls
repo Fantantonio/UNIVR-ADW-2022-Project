@@ -19,7 +19,6 @@ type Mutation {
 }
 
 input InTestInput{
-	id: ID!
  	idDomanda: String!
 	dataTest: String!
 	nomeTest: String!

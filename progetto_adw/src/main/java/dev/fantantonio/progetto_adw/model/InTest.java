@@ -18,7 +18,7 @@ import javax.persistence.Table;
 public class InTest {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer id;
 
 	@Column(name="datatest", nullable = false)
@@ -45,9 +45,9 @@ public class InTest {
 
 	
 
-	public InTest(Integer id, String datatest, String nometest, Domanda domanda) {
+	public InTest(String datatest, String nometest, Domanda domanda) {
 		super();
-		this.id = id;
+		//this.id = id;
 		this.datatest = datatest;
 		this.nometest = nometest;
 		this.domanda = domanda;

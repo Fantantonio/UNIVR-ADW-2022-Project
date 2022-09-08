@@ -53,11 +53,11 @@ public class InTestController {
 		TestID testid = new TestID(inTest.dataTest, inTest.nomeTest);
 		Test test = testRepository.findById(testid).orElseThrow(() -> new IllegalArgumentException("Test not found"));
 		
-		InTest t = new InTest(inTest.id(),test.getData(), test.getNome(), domanda);
+		InTest t = new InTest(test.getData(), test.getNome(), domanda);
 		return inTestRepository.save(t);
 	}
 	
-	record InTestInput(int id, String idDomanda, String dataTest, String nomeTest) {}
+	record InTestInput(String idDomanda, String dataTest, String nomeTest) {}
 	
 	
 	

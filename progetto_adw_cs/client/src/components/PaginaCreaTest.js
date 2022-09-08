@@ -48,6 +48,9 @@ const PaginaCreaTest = ({setPage}) => {
                     console.log("Test Creato");
                     
                     for (let n of domande){
+                    console.log("Prima di creintest");
+                    console.log(dataTest);
+                    console.log(nome);
                     createInTest({ variables: {idDomanda:n, dataTest:dataTest.value, nomeTest:nome.value }});
                     }
                     setPage("PaginaIniziale");

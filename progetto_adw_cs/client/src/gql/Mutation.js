@@ -13,7 +13,7 @@ export const ADD_TEST = gql`
 
 export const ADD_INTEST = gql`
   mutation ($idDomanda:String!, $dataTest:String!, $nomeTest:String!) {
-  addInTest(inTest: {id:5, idDomanda:$idDomanda, dataTest:$dataTest, nomeTest:$nomeTest}){
+  addInTest(inTest: {idDomanda:$idDomanda, dataTest:$dataTest, nomeTest:$nomeTest}){
     datatest,
     nometest
   }
