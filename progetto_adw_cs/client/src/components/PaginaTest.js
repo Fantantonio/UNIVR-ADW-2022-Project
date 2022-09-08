@@ -19,13 +19,11 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
     const [isFirstInstance, setFirstInstance] = useState(false);
     const [isTestCompleted, setTestCompleted] = useState(false);
     const [numeratedQuestion, setNumeratedQuestion] = useState([]);
-    //console.log(nomeTest);
-    console.log("Ordine CASUALE");
-    console.log(flagOrdineCasuale);
+
+ 
     let flagDomandeNumerateCasted = (flagDomandeNumerate ==='true');
     let flagCasted = (flagOrdineCasuale === 'true');
-    //console.log("Domande numerate");
-    //console.log(flagDomandeNumerate);
+
     function refreshPage() {
         window.location.reload();
       }
@@ -72,9 +70,7 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
     }
 
     const queryRisposte = () => {
-        return new Promise((resolve, reject) => {
-            //console.log("Dentro Query Risposte");
-       
+        return new Promise((resolve, reject) => {      
             resolve(getLazyRisposte({variables: {idDomanda:usertest.nome_ultima_domanda}}));
            
         })
@@ -92,19 +88,13 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
         let questionList = [];
         let arrayDomanda = [];
         let arrayDomandeNumerated_temp = [];
-        //console.log("Sono dentro Question AuX!!!!");
-        //console.log(usertest);
-        //console.log("Dentro Aux, Before query");
+
         // TODO: function that get all question data from "nome" and add them to question
         queryApollo().then(result => { 
-            //console.log("Print Result LazyQuery");
-            //console.log(result.data);
+
             setQuestion(result.data.getDomanda);
             queryRisposte().then(rest => {
-           //     //console.log("Risposta per domanda");
-           //     //console.log(rest.data.getRisposta);
-           //     console.log("Ordine Domande in set Quesiton Aux");
-           //     console.log(usertest.ordine_domande);
+ 
                 if(!isFirstInstance){
 
                     queryDomandeTest().then(result =>{
@@ -159,8 +149,6 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
                 });
 
                 setNumeratedQuestion(arrayDomandeNumerated_temp);
-                console.log("Dentro generato ordine");
-                console.log(questionOrder);
 
                 if(!flagOrdineCasuale){              
                     // sarebbe così ",Dom 1,Dom 2,..." => lo rende così "Dom 1,Dom 2,..."
@@ -174,8 +162,6 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
 
                     if (arrayDomanda.length > 0) {
                         shuffle(arrayDomanda);
-                        //console.log("After Shuffle");
-                        //console.log(arrayDomanda);
 
                         arrayDomanda.forEach((question) => {
                             questionRandomOrder += `,${question.domanda.nome}`;
@@ -184,9 +170,6 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
                         // sarebbe così ",Dom 1,Dom 2,..." => lo rende così "Dom 1,Dom 2,..."
                         questionRandomOrder = questionRandomOrder.substring(1);
                         questionRandomOrder = questionRandomOrder.substring(1);
-
-                        //console.log("Prima di return dentro ordine casuale");
-                        //console.log(questionRandomOrder);
 
                         resolve(questionRandomOrder);
                     }
@@ -268,9 +251,6 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
     // Fa il GET del test e ottiene {id, id_utente, nome_test, data_test, nome_ultima_domanda, ordine_domande, id_risposte_date}
     const userTestGet = () => {
         return new Promise((resolve, reject) => {
-        //console.log("GETTING TEST...");
-        //console.log(ordine_casuale);
-        //console.log(domande_numerate);
 
         Axios.get("http://localhost:5000/usertest", {
             params: {
@@ -282,26 +262,18 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
             if (response.data.message) {
                 console.error(response.data.message);
             } else {
-                console.log("CHECKING TEST DATA...");
-                //console.log(response);
                 // Qui si entra solo la prima volta
                 if (response.data.nome_ultima_domanda === "false") {
-                    console.log("Il test è gia stato effettuato");
                     setTestCompleted(true);
                 }
 
                 if (response.data.ordine_domande === "") {
-                    //console.log("QUESTIONS ORDER HAS TO BE GENERATED...");
                     setFirstInstance(true);
                     // Genera l'ordine e lo salva in usertest
                     let ordineDomande = [];
-             
-                    //console.log("Prima di generare ordine, check flag:");
-                    //console.log(flagCasted = (flagOrdineCasuale === 'true'));
+
                     GenerateQuestionsOrder(flagCasted).then(result => {
                     ordineDomande= result;
-                    //console.log("Ordine Domande dopo generazione");
-                    //response.data.ordine_domande = ordineDomande;
                 
                     Axios.put("http://localhost:5000/usertest", {
                         params: {
@@ -330,11 +302,6 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
     }
     
 
-    //console.log(dataTest);
-    //console.log(nomeTest);
-    //const  domandeQuery  = useQuery(GET_DOMANDE_OF_TEST, { variables: {datatest: dataTest, nometest: nomeTest}});
-    ////console.log(domandeQuery.loading);
-    ////console.log(domandeQuery.data);
     let nome;
     let idDomanda;
     
@@ -344,10 +311,7 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
 
     useEffect(() => {
         userTestGet().then(ris =>{
-            //console.log("Dati Risposta ottenuti:");
-            //console.log(ris);
             setUserTest(ris);
-            //console.log(usertest);
            
         })
 
@@ -355,8 +319,6 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
     let flag =true;
     useEffect(() =>{
         if(typeof usertest != 'undefined'){
-            //console.log("UserTest setted correctly");
-            console.log("Enntro in prima istanza o no???");
             SetQuestionAux();
         }
     }, [usertest])
@@ -371,15 +333,13 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
     } 
     return (
         <>
-     
-            <>
                 <div className="card my-4">
                     <div className="card-body">
                     <h5 className="card-title" id="test-domanda" value={`${usertest.nome_ultima_domanda}`}>{flagDomandeNumerateCasted ? '(' + (numeratedQuestion.indexOf(usertest.nome_ultima_domanda) + 1 )+ '/' + numeratedQuestion.length + ')' : "" } {usertest.nome_ultima_domanda}</h5>
                     <p className="card-text">{question.testo}</p>
                 
                         <hr />
-
+                        
                         <RispostaSingola
                             question={answers} flagOrdineCasualeRisposte={question.ordinecasuale} flagRisposteNumerate={question.risposteconnumero}
                         />
@@ -390,33 +350,12 @@ const PaginaTest = ({setPage, userRole, userId, nomeTest, dataTest, flagOrdineCa
                         <button className="btn btn-success" onClick={updateTest}>Conferma</button>
                     </div>
                 </div>
-            </>
-        
         </>
+        
     )
 }
 
 // TODO: ricordati domandeConNumero (index dell'array ordinato o meno => puoi anche fare una cosa del tipo (n° domanda in array / n° di dimande totali per il test che equivale al length))
-
-/*
-<div className="card my-4">
-    <div className="card-body">
-        <h5 className="card-title" id="test-domanda" value={`${usertest.nome_ultima_domanda}`}>{usertest.nome_ultima_domanda}</h5>
-        <p className="card-text">{question.testo}</p>
-        
-        <hr />
-
-        <RispostaSingola
-            question={question}
-        />
-        
-        {showSelectError()}
-        <hr />
-
-        <button className="btn btn-success" onClick={updateTest}>Conferma</button>
-    </div>
-</div>
-*/
 
 
 export default PaginaTest

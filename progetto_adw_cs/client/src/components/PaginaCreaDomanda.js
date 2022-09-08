@@ -148,9 +148,6 @@ const PaginaCreaDomanda = ({setPage}) => {
                         {rispostaList.map((singleRisposta, index) => (
                             <div key = {index} className = "risposte">
                             <div className="input-group">
-                                <div className="input-group-text">
-                                    <input id={`crea-risposta-corretta-${index}`} className="form-check-input mt-0 w15em h15em" type="checkbox" value="" aria-label={`Attiva questo checkbox se la risposta ${index} è corretta.`} aria-describedby={`crea-risposta-corretta-${index}-help`} />
-                                </div>
                                 <input type="text" name="testoRisposta" className="form-control" aria-label={`Inserisci qui il testo della risposta ${index}.`} placeholder={`Inserisci qui il testo della risposta ${index}`} onChange = { e => handleServiceChange(e,index)} /> 
                                 <input type="number" name="punteggioRisposta" className="form-control" min="0" max="1" step="0.1" aria-label={`Inserisci qui il punteggio della risposta ${index}.`} placeholder={`Inserisci qui il punteggio della risposta ${index}` }  onChange = { e => handleServiceChange(e,index)}  />
                             </div>

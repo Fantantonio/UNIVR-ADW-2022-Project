@@ -35,12 +35,11 @@ const PaginaCreaTest = ({setPage}) => {
 
     const handleChangeOrdineCasuale = () => {
         setIsSubscribed1(current1 => !current1);
-        console.log("ordine casuale " + ordinecasuale.value)
+
     }
     
     const handleChangeDomandeNumero = () => {
         setIsSubscribed2(current2 => !current2);
-        console.log("domande con numero " + domandeconnumero.value)
     }
 
     const [domande, setDomande] = useState([]);  
@@ -53,7 +52,7 @@ const PaginaCreaTest = ({setPage}) => {
        }
     }, [setDomande])
 
-    console.log(domande);
+
     return (
         <>
         {data &&
@@ -65,12 +64,8 @@ const PaginaCreaTest = ({setPage}) => {
                     if(domande.length > 0){
                         
                         createTest({ variables: {nome:nome.value, dataTest:dataTest.value, ordinecasuale:ordinecasuale.value, domandeconnumero:domandeconnumero.value}});
-                        console.log("Test Creato");
                         
                         for (let n of domande){
-                        console.log("Prima di creintest");
-                        console.log(dataTest);
-                        console.log(nome);
                         createInTest({ variables: {idDomanda:n, dataTest:dataTest.value, nomeTest:nome.value }});
                         }
                         setPage("PaginaIniziale");

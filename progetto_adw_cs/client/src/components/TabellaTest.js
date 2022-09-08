@@ -33,7 +33,7 @@ const TabellaTest = ({setPage, userId, nomeTest, setNomeTest, dataTest, setDataT
             <td className="text-center">{ordine_casuale.toString()}</td>
             <td className="text-center">{domande_numerate.toString()}</td>
             <td className="text-end">
-                <button type="button" className="btn btn-sm btn-primary" onClick={() => {
+                <button type="button" className="btn btn-sm btn-primary" aria-label={`Data: ${data}, Nome: ${nome}, Ordine casuale: ${ordine_casuale.toString()}, Domande Numerate: ${domande_numerate.toString()}`} onClick={() => {
                         userTestInit();
                     }
                 }>Inizia</button>
