@@ -26,14 +26,10 @@ const RispostaSingola = ({question, flagOrdineCasualeRisposte, flagRisposteNumer
     // TODO: get the answers from question.nome and then set the order and numero according to question data.
     // setAnswers(data.getRisposta);
     const getAnswers = () => {
-        console.log("Dentro risposta");
-        console.log(question);
         let arrayRisposte = []; 
         let content = [];
       
 
-        console.log("Prima di tutto");
-        console.log(question);
         arrayRisposte = Object.values(question);
         
         if(flagOrdineCasualeRisposte){

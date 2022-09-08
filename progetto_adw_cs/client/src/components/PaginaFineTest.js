@@ -20,7 +20,6 @@ const PaginaFineTest = ({setPage, userRole, userId,nomeTest, dataTest}) => {
     if (response.data.message) {
         console.error(response.data.message);
     } else{
-      console.log("Dentro fine test");
       //console.log(response.data.id_risposte_date);
       let test;
       setAnswersSummary(response.data.id_risposte_date);

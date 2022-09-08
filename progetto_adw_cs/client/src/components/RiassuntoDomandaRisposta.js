@@ -25,7 +25,6 @@ const RiassuntoDomandaRisposta = ({answer, question}) => {
   let content = [];
   let nomeDomanda;
  
-  console.log("Dentro RiassuntoDmandaRisposta");
 
   const getSummary = () =>{
 
@@ -55,7 +54,6 @@ const RiassuntoDomandaRisposta = ({answer, question}) => {
           })
 
           punteggioConseguito = punteggioConseguito + (punteggioDomanda * punteggioRisposta);
-          console.log(punteggioConseguito);
 
           content.push(
             <>
@@ -85,17 +83,12 @@ const RiassuntoDomandaRisposta = ({answer, question}) => {
 }
 
   useEffect(() => {
-    console.log("Dentro USEFFECT");
-    console.log(data);
-    console.log(queryAnswer.data);
     if (error){
       console.log('error');
     }
     if (data && queryAnswer.data != undefined) {
-      console.log(queryAnswer);
-      console.log("Prima di getSummary")
       getSummary();
-      console.log("dentro riassunto");}
+      }
   }, [data, queryAnswer]);
 
   
