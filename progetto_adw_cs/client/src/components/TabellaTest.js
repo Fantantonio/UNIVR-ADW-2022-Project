@@ -6,7 +6,6 @@ const TabellaTest = ({setPage, userId, nomeTest, setNomeTest, dataTest, setDataT
      
 
     const userTestInit = () => {
-        console.log("dentro tabella test");
         setFlagOrdine(ordine_casuale.toString());
         setFlagDomande(domande_numerate.toString());
         setNomeTest(nome);
