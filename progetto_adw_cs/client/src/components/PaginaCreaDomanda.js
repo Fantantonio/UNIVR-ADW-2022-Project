@@ -21,6 +21,23 @@ const PaginaCreaDomanda = ({setPage}) => {
     let prova;
     let idDomanda;
 
+
+    const [areRisposteSelected, setAreRisposteSelected] = useState(false);
+
+    const showRisposteError = () => {
+        let content = <></>;
+        if (areRisposteSelected) {
+            content =
+                <>
+                <div className="alert alert-danger" role="alert">
+                    Crea almeno due risposte!
+                </div>
+                </>;
+        }
+        return content;
+    }
+
+
     const handleServiceChange = (e, index) => {
         const {name, value} = e.target;
         const list = [...rispostaList];
@@ -82,15 +99,23 @@ const PaginaCreaDomanda = ({setPage}) => {
                 <div className="card-body">
                     <form onSubmit={ e => {
                         e.preventDefault();
-                        creaDomanda({ variables: {nome:nome, testo:testo.value, punti:punti.value, ordinecasuale:ordinecasuale.value, risposteconnumero:risposteconnumero.value}}).then(result => {
-  
-                        for (let n of rispostaList){
-                                let temp1 = parseFloat(n.punteggioRisposta);
-                                console.log("Creazione risposta******************");
-                                console.log("Prima di creazione risposta");
-                                idDomanda=nome;
-                                creaRisposta({ variables: { testo:n.testoRisposta, punteggio:temp1, idDomanda:idDomanda}})}})
-                    }}>
+                        
+                        if(rispostaList.length >= 2){
+                            creaDomanda({ variables: {nome:nome, testo:testo.value, punti:punti.value, ordinecasuale:ordinecasuale.value, risposteconnumero:risposteconnumero.value}}).then(result => {
+                            console.log(rispostaList);    
+                            for (let n of rispostaList){
+                                    let temp1 = parseFloat(n.punteggioRisposta);
+                                    console.log("Creazione risposta******************");
+                                    console.log("Prima di creazione risposta");
+                                    idDomanda=nome;
+                                    creaRisposta({ variables: { testo:n.testoRisposta, punteggio:temp1, idDomanda:idDomanda}})}})
+                        }
+                        else{
+                            console.log("Dentro else in risposta");
+                            setAreRisposteSelected(true);
+                        }
+                    
+                     }}>
                         <p className="h6">Sezione domanda</p>
                         <div className="mb-3">
                             <label htmlFor="crea-domanda-testo" className="form-label">Testo della domanda</label>
@@ -139,6 +164,8 @@ const PaginaCreaDomanda = ({setPage}) => {
                         </div>
                     
                         <hr></hr>
+
+                        {showRisposteError()}
 
                         <div className="alert alert-info" role="alert">
                             Seleziona "Conferma e Continua" per confermare l'attuale domanda e continuare con una nuova domanda; seleziona "Termina" per uscire dalla compilazione senza salvare la domanda attuale. 

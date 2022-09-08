@@ -16,6 +16,23 @@ const PaginaCreaTest = ({setPage}) => {
     const [isCheckedOrdineCasuale, setIsSubscribed1] = useState(false);
     const [isCheckedDomandeNumero, setIsSubscribed2] = useState(false);
 
+
+    const [domandeEmpty, setDomandeEmpty] = useState(false);
+
+    const showDomandeEmpty = () => {
+        let content = <></>;
+        if (domandeEmpty) {
+            content =
+                <>
+                <div className="alert alert-danger" role="alert">
+                    Seleziona almeno una domanda!
+                </div>
+                </>;
+        }
+        return content;
+    }
+
+
     const handleChangeOrdineCasuale = () => {
         setIsSubscribed1(current1 => !current1);
         console.log("ordine casuale " + ordinecasuale.value)
@@ -44,18 +61,23 @@ const PaginaCreaTest = ({setPage}) => {
             <div className="card-body">
                 <form onSubmit={ e => {
                     e.preventDefault();
-                    createTest({ variables: {nome:nome.value, dataTest:dataTest.value, ordinecasuale:ordinecasuale.value, domandeconnumero:domandeconnumero.value}});
-                    console.log("Test Creato");
-                    
-                    for (let n of domande){
-                    console.log("Prima di creintest");
-                    console.log(dataTest);
-                    console.log(nome);
-                    createInTest({ variables: {idDomanda:n, dataTest:dataTest.value, nomeTest:nome.value }});
+
+                    if(domande.length > 0){
+                        
+                        createTest({ variables: {nome:nome.value, dataTest:dataTest.value, ordinecasuale:ordinecasuale.value, domandeconnumero:domandeconnumero.value}});
+                        console.log("Test Creato");
+                        
+                        for (let n of domande){
+                        console.log("Prima di creintest");
+                        console.log(dataTest);
+                        console.log(nome);
+                        createInTest({ variables: {idDomanda:n, dataTest:dataTest.value, nomeTest:nome.value }});
+                        }
+                        setPage("PaginaIniziale");
+                    }else{
+                        setDomandeEmpty(true);
                     }
-                    setPage("PaginaIniziale");
-                }
-                }>
+                }}>
                     <div className="mb-3">
                         <label htmlFor="crea-test-nome" className="form-label" id="nome-del-test">Nome del test</label>
                         <input type="nomeTest" className="form-control" aria-describedby="crea-test-nome-help" ref= { value => nome = value} id="nome"/>
@@ -87,6 +109,7 @@ const PaginaCreaTest = ({setPage}) => {
 
                                 })
                     }
+                 {showDomandeEmpty()}
                  <div className="mt-4">
                         <button type="submit" id="crea-test-conferma" className="btn btn-success me-1">Conferma</button>
                         <button type="button" className="btn btn-danger" onClick={() => setPage("PaginaIniziale")}>Annulla</button>
